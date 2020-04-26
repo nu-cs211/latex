@@ -1,0 +1,201 @@
+% vim: se et:
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{211lang}[2020/04/13 0.0.1]
+
+\newif\if@cxx\@cxxfalse
+\DeclareOption{cxx}{\@cxxtrue}
+\ProcessOptions\relax
+
+\RequirePackage[final]{listings}
+\RequirePackage{newunicodechar}
+
+\lstdefinelanguage[211]{make}
+  {%
+    sensitive=true,%
+    morecomment=[l]\#,%
+    morestring=[b]",%
+    otherkeywords={$<,$@,$\%,$?,$^,$+,$*},%
+    morekeywords={CC,CFLAGS,CPPFLAGS,LDFLAGS,SHELL,MAKE,MAKEFLAGS},%
+  }[keywords,comments,strings]%
+
+\lstdefinelanguage[211]{C}%
+{
+  % Lex the line after the directive. (Might be bad.)
+  delim=**[directive]\#,%
+  %%% [1] Reserved for C++ std.
+  classoffset=1,
+  %%% [2] ANSI C keywords
+  alsolanguage=[ANSI]{C},
+  % delete types -- move to [4]
+  deletekeywords={,char,double,float,int,long,short,signed,unsigned,void,},
+  classoffset=0,
+  %%% [3] empty
+  %%% [4] C type keywords
+  morekeywords=[4]{,char,double,float,int,long,short,signed,unsigned,void,},
+  %%% [5] C library macros
+  morekeywords=[5]{%
+    assert,%
+    CHAR_MIN,CHAR_MAX,UCHAR_MAX,SCHAR_MIN,SCHAR_MAX,
+    SHRT_MIN,SHRT_MAX,USHRT_MAX,
+    INT_MIN,INT_MAX,UINT_MAX,
+    LONG_MIN,LONG_MAX,ULONG_MAX,
+    LLONG_MIN,LLONG_MAX,ULLONG_MAX,
+    M_PI,NULL,%
+  },
+  %%% [6] C library types
+  morekeywords=[6]{FILE,bool,size_t,ssize_t},
+  %%% [7] C library functions
+  morekeywords=[7]{%
+    abs,exit,fabs,fprintf,free,fscanf,%
+    getchar,islower,isupper,malloc,perror,printf,%
+    puts,realloc,scanf,sqrt,stderr,stdin,stdout,%
+    strcat,strcmp,strcpy,strlen,toupper,%
+  },
+  %%% [8] lib211 macros
+  morekeywords=[8]{,%
+    CHECK,CHECK_CHAR,CHECK_INT,CHECK_UINT,%
+    CHECK_LONG,CHECK_ULONG,CHECK_SIZE,%
+    CHECK_DOUBLE,CHECK_STRING,CHECK_POINTER,%
+    debugf,%
+  },
+  %%% [9] lib211 types would go here
+  % morekeywords=[9]{%
+  % },
+  %%% [10] lib211 functions
+  morekeywords=[10]{%
+    eprintf,%
+    read_line,%
+    fread_line,%
+    prompt_line,%
+  },
+}[keywords,comments,strings,directives]
+
+\lstdefinelanguage[211]{C++}[211]{C}%
+{%
+  %%% [1] C++ standard library qualified names
+  % alsoletter={:},
+  % keywordsprefix=std::,
+  %%% [2] add C++ keywords
+  morekeywords=[2]{alignas,alignof,and,and_eq,asm,bitand,bitor,catch,class,%
+    compl,const_cast,constexpr,decltype,delete,dynamic_cast,explicit,%
+    export,friend,inline,mutable,namespace,new,noexcept,not,not_eq,%
+    operator,or,or_eq,override,private,protected,public,%
+    reinterpret_cast,static_assert,static_cast,template,this,thread_local,%
+    throw,try,typeid,typename,using,virtual,xor,xor_eq},
+  %%% [3] empty
+  %%% [4] C++ type keywords
+  morekeywords=[4]{bool,char16_t,char32_t,wchar_t}%
+  %%% [5] C++ library macros and literal keywords
+  morekeywords=[5]{false,true,nullptr,assert,static_assert},%
+  %%% [6] C++ library types
+  %%% [7] C++ library functions & objects
+  %%% [8] CS 211 library macros (catch2)
+  deletekeywords=[8]{,%
+    CHECK,CHECK_CHAR,CHECK_INT,CHECK_UINT,%
+    CHECK_LONG,CHECK_ULONG,CHECK_SIZE,%
+    CHECK_DOUBLE,CHECK_STRING,CHECK_POINTER,%
+    debugf,%
+  },%
+  morekeywords=[8]{TEST_CASE,CHECK,CHECK_THROWS_AS,CHECK_FALSE},%
+  % [9] ge211 types
+}[keywords,comments,strings,directives]
+
+\lstdefinelanguage[211usingStd]{C++}[211]{C++}{%
+  morekeywords=[6]{,%
+    istream,ostream,%
+    ifstream,ofstream,%
+    string,vector,%
+  },%
+  morekeywords=[7]{,%
+    cin,cout,cerr,%
+    getline,%
+  },%
+}[keywords,comments,strings,directives]
+
+\newcommand\set@current@lang[1]{%
+  \if@cxx
+    \lstset{language=[211]C++,#1}%
+  \else
+    \lstset{language=[211]C,#1}%
+  \fi
+}
+
+\newcommand\@old@dagger{†}
+\let\@current@dagger=\@old@dagger
+\newunicodechar{†}{\@current@dagger}
+
+\def\InstructionPointerColor{}
+\def\ReturnAddressColor{}
+
+\def\IPMARK#1{%
+  \llap{%
+    \alt<#1>
+      {\InstructionPointerColor{\ensuremath{\blacktriangleright}}}
+      {\ReturnAddressColor{\ensuremath{\blacktriangleleft}}}%
+    ~}%
+}
+
+\def\IP@plain#1#2{\uncover<#1,#2>{\IPMARK{#2}}}
+\def\IP@pointy#1<#2>{\IP@plain{#1}{#2}}
+\newcommand\IP[1][0]{\@ifnextchar<{\IP@pointy{#1}}{\IP@plain{#1}}}
+
+\lstnewenvironment{Code}[1][]
+{%
+  \begingroup
+  \let\@current@dagger=\IP
+  \set@current@lang{#1}
+}
+{%
+  \endgroup
+}
+
+\newsavebox{\CodeHeading@savebox}
+
+\lstnewenvironment{CodeHeading}[2][]
+{%
+  \addcontentsline{toc}{subsubsection}{-- #2}%
+  \set@current@lang{%
+    aboveskip=2pt plus 0pt,
+    belowskip=2pt plus 0pt,
+    linewidth=0.95\linewidth,
+    #1
+  }%
+  \global\setbox\CodeHeading@savebox\vbox\bgroup
+}
+{%
+  \egroup
+  \vspace{.5ex plus 0.1ex}
+  \begin{trivlist}
+    \item\framebox[\linewidth]{\usebox{\CodeHeading@savebox}}
+  \end{trivlist}
+  \vspace{.25ex plus 0.05ex}
+}
+
+\lstnewenvironment{Make}[1][]
+{%
+  \begingroup
+  \lstset{%
+    language=[211]make,%
+  }
+}
+{%
+  \endgroup
+}
+
+\newcommand{\textCode}{%
+  \set@current@lang{}%
+  \lstinline
+}
+
+\let\sup^
+\catcode`^\active
+\def^{\@ifnextchar^\nb@textCode\br@textCode}
+\def\nb@textCode^#1^^{\textCode{#1}}
+\def\br@textCode#1^{{%
+  \lstset{
+    breaklines=true,
+    breakatwhitespace=true,
+  }%
+  \textCode{#1}%
+}}
+

@@ -1,0 +1,211 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{211hw}[2020/2/9 0.2.1]
+
+\DeclareOption*{\PassOptionsToPackage{\CurrentOption}{211common}}
+\ProcessOptions\relax
+
+\RequirePackage{tikz}
+\RequirePackage{211common}
+
+\newcommand\HWROOT{\WEBROOT/hw}
+
+\if@cxx
+  \RequirePackage{charter}
+  \RequirePackage{multicol}
+  \RequirePackage[margin=1in]{geometry}
+
+  \RequirePackage{fontspec}
+  \setmonofont[Scale=0.88]{Iosevka}
+
+  \addtokomafont{title}{\mdseries}
+  \addtokomafont{author}{\mdseries\sffamily}
+  \addtokomafont{date}{\mdseries\sffamily}
+  \addtokomafont{section}{\raggedright\mdseries}
+  \addtokomafont{subsection}{\raggedright\mdseries}
+  \addtokomafont{subsubsection}{\raggedright\mdseries}
+
+  \RequirePackage{tocloft}
+  \let\old@cfttoctitlefont\cfttoctitlefont
+  \renewcommand{\cfttoctitlefont}{\old@cfttoctitlefont\mdseries}
+
+  \renewcommand{\cftsecfont}{\sffamily\bfseries}
+  \renewcommand{\cftsubsecfont}{\sffamily}
+  \renewcommand{\cftsubsubsecfont}{\ttfamily}
+
+  % Don't show numbers on subsubsection headings:
+  \renewcommand{\thesubsubsection}{}
+
+  \pagestyle{headings}
+
+  \let\aside\footnote
+\else
+  \RequirePackage{inconsolata}
+  \let\aside\marginpar
+\fi
+
+\newif\if@partner@allowed
+
+\newcommand\HomeworkInfo[1][2]{
+  \date{\TERM}
+  \if2#1
+    \@partner@allowedtrue
+  \else
+    \@partner@allowedfalse
+  \fi
+  \@ifnextchar *
+    \HomeworkInfo@manual
+    \HomeworkInfo@auto
+}
+
+\def\HomeworkInfo@manual*#1#2{
+  \title{#1}
+  \author{\COURSENO}
+  \def\DueDateRows{#2}
+}
+
+\def\HomeworkInfo@auto#1{
+  \def\hw@number{#1}
+  \def\hw@number@padded{\@pad@two{#1}}
+  \HomeworkInfo@rest
+}
+
+\newcommand\DeadlineTime{11:59 PM, Central Daylight Time}
+
+\newcommand\HomeworkInfo@rest[3][\relax]{
+  \ifx#1\relax
+    \title{\COURSENO\ Homework \hw@number}
+  \else
+    \title{Homework \hw@number: #1}
+    \author{\COURSENO}
+  \fi
+  \def\DueDateRows{
+    Code Due:      & #2, \DeadlineTime \\
+    Self-Eval Due: & #3, \DeadlineTime \\
+  }
+}
+
+
+\if@cxx
+
+  \newcommand\CPrelims{
+    Download \href{\WEBROOT/hw/hw\hw@number@padded.zip}{the project ZIP
+    file} to your computer%
+    \footnote{To complete this homework on your own computer, you need a
+    C++14 toolchain and the SDL2 libraries. Follow
+    \href{\Cxx@setup@local}{these instructions} to install
+    them on your own computer, or if you need to work on a lab computer
+    instead then \href{\Cxx@setup@linux}{see here}.
+    }%
+    , unzip it, and open the resulting directory in CLion.
+    (Be careful that you open the \filename{hw\hw@number@padded} directory and
+    not some sub- or superdirectory thereof. If you do, CLion will create
+    a bogus \filename{CMakeLists.txt} that won't be able to find SDL2.)
+  }
+
+\else
+
+  \newcommand\CPrelims[1]{
+    Login
+    \marginpar{
+    This homework assignment must be completed on Linux by logging into
+    \href
+      {http://it.eecs.northwestern.edu/info/2015/11/03/info-labs.html}
+      {a Linux server or one of the Wilkinson Lab machines}.
+      Each time you login to work on \COURSENO,
+      you need to run the \progname{dev} command
+      (as set up in \href{\WEBROOT/lab/lab01.pdf}{Lab 1}).
+    }
+    to the server of your choice and \progname{cd} to the
+    directory where you keep your \COURSENO\ work. Then download and
+    unarchive the starter code, and change into the project directory:
+    \par
+    \begin{CmdLine}
+      \C cd cs211 \\
+      \C curl \$HW211/hw\hw@number@padded.tgz | tar zvxk \\
+      \ETC
+      \C cd hw\hw@number@padded \\
+      \NoPrompt
+    \end{CmdLine}
+  }
+
+\fi
+
+
+\newcommand\CSubmit[1]{
+
+  Homework submission and grading will use the GSC grading server. You
+  must include any files that you create or change. #1
+
+  \if@cxx
+
+  You should upload your files on
+  \href{https://cs211.cs.northwestern.edu/gsc}{the GSC web
+  site}.\aside{It’s also possible to install the command-line GSC
+  client \texttt{\textbf{gsc}(1)} on your local machine.}
+
+  \else
+
+  Submit using the command-line GSC client \texttt{\textbf{gsc}(1)}.
+  Instructions are available in the \texttt{\textbf{submit211}(7)}
+  manual page on the Unix login and lab machines. To view the manual
+  page, run:
+
+  \begin{CmdLine} \C man submit211 \\ \NoPrompt \end{CmdLine}
+
+  \fi
+
+  \if@partner@allowed
+
+  \subsection{Partners}
+
+  If you work with a partner then you must register\aside{Be
+  careful with partner registration, because once a partner request is
+  accepted, undoing it requires an appeal to the instructor.} your
+  partnership \textbf{before uploading to GSC}. There are two steps to
+  this: one partner must create a \emph{partner request} (referring to
+  their intended partner by NetID), and then the other partner must
+  accept that request for it to take effect.
+
+  \if@cxx
+
+  Create partner requests on the GSC website or using the command-line
+  tool; outstanding partner requests will appear on the page for the
+  relevant homework as well as your main GSC submissions page.
+
+  \else
+
+  Partner requests are created with the \texttt{gsc partner request}
+  command and accepted using  using the \texttt{gsc partner accept}
+  command. You can list outstanding partner requests with the
+  \texttt{gsc status} command and cancel them with the \texttt{gsc
+  partner cancel} command.\marginpar{It’s also possible to manage
+  partner requests via the website.} See the \texttt{\textbf{gsc}(1)}
+  manual page for details.
+
+  \fi
+
+  Before a partner request can be accepted, the files in the two
+  submissions must be disjoint. (The system will not choose whose file
+  to delete if you both have files with the same name.) Once a partner
+  request is accepted, you and your partner's submissions are joined
+  together: when one partner uploads files to the GSC server or performs
+  self evaluation, the results will be visible to both.
+
+  \fi
+
+  }
+
+\newcommand\MakeTitle{
+  \maketitle
+  \if@cxx\begin{center}\fi
+  \begin{tabular}{llr}
+    \DueDateRows
+    Partners:
+    & \if@partner@allowed
+        Yes; register on GSC before submission
+      \else
+        No; must be completed by yourself
+      \fi \\
+  \end{tabular}
+  \if@cxx\end{center}\bigskip\fi
+}

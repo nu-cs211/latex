@@ -1,0 +1,459 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{211slides}[2020/01/06 0.2]
+
+\def\COURSE{CS 211}
+\def\TERM{Spring 2020}
+
+\DeclareOption*{\PassOptionsToPackage{\CurrentOption}{211lang}}
+\ProcessOptions\relax
+
+\RequirePackage{mathspec}
+\RequirePackage{xltxtra}
+\RequirePackage{xunicode}
+\RequirePackage{solarslides}
+\RequirePackage{solarpandoc}
+\RequirePackage{graphicx}
+\RequirePackage{alltt}
+\RequirePackage{tikz}
+\RequirePackage{boxnarrow}
+\RequirePackage{hyperref}
+\RequirePackage{211lang}
+
+\usetikzlibrary{
+  backgrounds,
+  bending,
+  fit,
+  decorations.pathmorphing,
+  shapes.callouts,
+  shapes.symbols,
+}
+
+% Fix to make PGF get along with xelatex
+% from https://tex.stackexchange.com/questions/339827/draw-connection-between-node-in-forest-tree-diagram-and-something-outside-it/339975#339975
+\def\pgfsys@hboxsynced#1{%
+  {%
+    \pgfsys@beginscope%
+    \setbox\pgf@hbox=\hbox{%
+      \hskip\pgf@pt@x%
+      \raise\pgf@pt@y\hbox{%
+        \pgf@pt@x=0pt%
+        \pgf@pt@y=0pt%
+        \special{pdf: content q}%
+        \pgflowlevelsynccm% 
+        \pgfsys@invoke{q -1 0 0 -1 0 0 cm}%
+        \special{pdf: content -1 0 0 -1 0 0 cm q}% translate to original coordinate system
+        \pgfsys@invoke{0 J [] 0 d}% reset line cap and dash
+        \wd#1=0pt%
+        \ht#1=0pt%
+        \dp#1=0pt%
+        \box#1%
+        \pgfsys@invoke{n Q Q Q}%
+      }%
+      \hss%
+    }%
+    \wd\pgf@hbox=0pt%
+    \ht\pgf@hbox=0pt%
+    \dp\pgf@hbox=0pt%
+    \pgfsys@hbox\pgf@hbox%
+    \pgfsys@endscope%
+  }%
+}
+
+%% Font setup
+\setallmainfonts[Numbers=Lining]{Zeitung Pro}
+\setallsansfonts[Numbers=Lining]{Zeitung Pro}
+\setallmonofonts[Scale=MatchLowercase]{Input Mono Condensed}
+\def\commentFont{\fontspec{Input Mono Compressed}\itshape}
+
+\setbeamertemplate{title page}{%
+  \begin{center}
+    {%
+      \color{solarizedBlue}%
+      \fontspec[Scale=4]{Zeitung Pro Thin}%
+      \baselineskip=1em\relax%
+      \inserttitle \par \bigskip
+    }{%
+      \fontspec[Scale=1.3]{Input Mono}%
+      \insertauthor/\insertdate
+    }%
+  \end{center}
+}
+
+\setbeamercolor{alerted text}{fg=solarizedViolet}
+\setbeamercolor*{frametitle}{fg=solarizedYellow}
+\setbeamercolor*{title}{fg=solarizedBlue}
+
+\newcommand\ctutor[2][Try on C Tutor]{%
+  % \tikz[overlay, remember picture]
+  %   \node[anchor=north east] at (current page.north east) {
+  %     \footnotesize
+  %     \textcolor{solarizedBlue}{%
+  %       \underline{%
+  %         \href{#2}{%
+  %           #1 \rotatebox[origin=c]{270}{$\Lsh$}}}}};%
+}
+
+\tikzset{
+  common object/.style={
+    draw = #1,
+    very thick,
+  },
+  every object/.style={
+    common object = solarizedOrange,
+    font = \ttfamily\slshape\color{solarizedCyan},
+    fill = none,
+  },
+  every vector/.style={
+    common object = solarizedGreen,
+  },
+  every struct/.style={
+    common object = solarizedYellow,
+  },
+  every pointer anchor/.style={
+    very thick,
+    draw = solarizedMagenta,
+    fill = solarizedMagenta!30!solarizedBase2,
+  },
+  every pointer arrow/.style={
+    very thick,
+    draw = solarizedMagenta,
+  },
+  every null pointer/.style={
+    very thick,
+    draw = solarizedRed,
+  },
+  wild pointer/.style={
+    looseness = 33,
+    bend right,
+    decorate,
+    decoration={
+      random steps,
+      segment length=20pt,
+      amplitude=2pt,
+    },
+  },
+}
+
+\tikzset{
+  note/.style={
+    rectangle callout,
+    anchor = pointer,
+    very thick,
+    draw = #1!50!solarizedBase00,
+    fill = #1!8!solarizedBase2,
+    font = \color{solarizedBase01}\footnotesize,
+  },
+  note/.default = solarizedGreen,
+}
+
+\newcommand<>\Note[3][]{%
+  {%
+    \hyphenpenalty=10000\relax
+    \tikz[overlay, remember picture]
+      \node#4 [
+        note,
+        align = center,
+        callout relative pointer = {(#2)},
+        text width = 0.2\paperwidth,
+        #1
+      ] {\ignorespaces #3};%
+  }\ignorespaces
+}
+
+\def\wasp{%
+  \includegraphics[height=.7em]{images/wasp.png}%
+}
+\def\dwasp{\wasp\hfill\wasp\hfill}
+\def\qwasp{\dwasp\dwasp}
+
+\newcommand\BigMenlo{\normalsize\fontspec[Scale=3]{Menlo}}
+
+\newcommand<>\SUCCESS[1][]{%
+  \tikz \node#2[
+    overlay,
+    anchor=west,
+    circle,
+    draw,
+    fill=green!35!white,
+    green!50!black,
+    font=\BigMenlo,
+    line width=2pt,
+    #1
+  ] {✔};
+}
+
+\newcommand<>\FAILURE[1][]{%
+  \tikz \node#2[
+    overlay,
+    anchor=west,
+    circle,
+    draw,
+    fill=yellow!35!white,
+    red,
+    font=\BigMenlo,
+    line width=2pt,
+    decorate,
+    decoration={
+      random steps,
+      segment length=3pt,
+      amplitude=1pt,
+    },
+    #1
+  ] {✘};
+}
+
+\newcommand<>\BOOM[1][]{%
+  \tikz \node#2[
+    overlay,
+    anchor=west,
+    starburst,
+    draw,
+    fill=solarizedOrange!35!white,
+    solarizedRed,
+    font=\rmfamily\scshape,
+    line width=2pt,
+    #1
+  ] {Crash!};%
+}
+
+\def\VarObj#1 = #2;{%
+  \quad\textit{\strut #1}:%
+  \Var{}{\strut #2}\quad%
+}
+
+\newcommand\Cons[3][]{%
+  \Struct[#1] {
+    \Field car: #2\\
+    \Field cdr: #3\\
+  }%
+}
+
+\newcommand\StackFrame[2][]
+  {\tikz [baseline, remember picture]
+     \node [
+       anchor=base,
+       font=\color{solarizedBase01},
+       draw=solarizedYellow,
+       very thick,
+       dotted,
+       fill=solarizedBase2,
+       #1
+     ] {\begin{tabular}{@{}r@{\VarSep}l@{}}#2\end{tabular}};}
+
+\newcommand\LecInfo[1]{
+  \title{#1}
+  \author{\COURSE}
+  \date{\TERM}
+}
+
+% ZII means 211
+\newcommand{\ZII@plain@frame}[1]{
+  \begin{frame}{}{}
+    \thispagestyle{empty}
+    \begin{center}
+      #1
+    \end{center}
+  \end{frame}
+}
+
+\def\ZII@hyper#1{%
+  \if#1\relax
+    \let\@ZII@hyper@wrap\relax
+  \else
+    \def\@ZII@hyper@wrap{\hypertarget{#1}}
+  \fi
+  \@ZII@hyper@wrap
+}
+
+\newcommand{\sectionframe}[2][\relax]{
+  \setSolarizedDark
+  \ZII@plain@frame{%
+    \color{solarizedBlue}
+    \ZII@hyper{#1}{\LARGE\ignorespaces#2}
+  }%
+  \setSolarizedLight
+}
+
+\newcommand{\subsectionframe}[2][\relax]{
+  \ZII@plain@frame{%
+    \color{solarizedBlue}
+    \ZII@hyper{#1}{\Large\ignorespaces#2}
+  }%
+}
+
+\newcommand\progname[1]{\BasicCodeText{\textsl{#1}}}
+\newcommand\hostname[1]{\BasicCodeText{#1}}
+\newcommand\filename[1]{\BasicCodeText{#1}}
+\newcommand\varname[1]{\BasicCodeText{\textsl{#1}}}
+\newcommand\functionname[1]{\FunctionText{#1}}
+\newcommand\functionref[2]{\functionname{#1}\BasicCodeText{(#2)}}
+\newcommand\keycombo[1]{\underline{#1}}
+
+\newcommand\hibox[1]
+  {\fcolorbox{solarizedBase00}{solarizedBase2}
+    {\color{solarizedBase01}{#1}}}
+\newcommand\varbox[2][2]
+  {\hibox{\hskip#1cm\llap{#2}}}
+
+\newcommand\footmark{\@ifnextchar*{\footmarkast\@gobble}\footmarkother}
+\newcommand\footmarkast{\,{\normalsize*}\,\ignorespaces}
+\newcommand\footmarkother[1]{\,\raisebox{4pt}{\scriptsize#1}\,\ignorespaces}
+
+\def\InstructionPointerColor{\color{solarizedRed}}
+\def\ReturnAddressColor{\color{solarizedBlue}}
+
+\newcommand\ErrorText[1]{\textcolor{solarizedRed}{#1}}
+
+\newcommand\BasicCodeText[1]{{\normalfont\ttfamily #1}}
+\newcommand\KeywordText[1]{\BasicCodeText{\textKeyword*{#1}}}
+\newcommand\DataTypeText[1]{\BasicCodeText{\textData*{#1}}}
+\newcommand\FunctionText[1]{\BasicCodeText{\textFunction*{#1}}}
+\newcommand\PreprocessorText[1]{\BasicCodeText{\textPragma*{#1}}}
+\newcommand\LiteralText[1]{\BasicCodeText{\textLiteral*{#1}}}
+\newcommand\StringText[1]{\LiteralText{#1}}
+\newcommand\CommentText[1]{\BasicCodeText{\textC{#1}}}
+
+% Improving comment font:
+\let\oldTextC\textC
+\def\textC#1{\oldTextC{\commentFont#1}}
+
+\lstset{
+  escapeinside={«»},
+  upquote,
+  basicstyle=\ttfamily,
+  commentstyle=\textC, % Comment
+  directivestyle=\textP, % Comment
+  stringstyle=\textL, % Literal
+  keywordstyle=[1]\textF, % Function
+  keywordstyle=[2]\textK, % Keyword
+  keywordstyle=[3]\relax, % [empty]
+  keywordstyle=[4]\textT, % Type
+  keywordstyle=[5]\textM, % Macro
+  keywordstyle=[6]\textT, % Type
+  keywordstyle=[7]\textD, % Data
+}
+
+\lstnewenvironment{ShellScript}[1][]
+{%
+  \begingroup
+  \lstset{language=sh,
+    basicstyle=\ttfamily,
+    keywordstyle=\color{solarizedGreen},
+    stringstyle=\color{solarizedCyan},
+    commentstyle=\color{solarizedBase00}\rmfamily\slshape,
+    morecomment=[l][\color{solarizedMagenta}\slshape]{\#},
+  #1}%
+}
+{%
+  \endgroup
+}
+
+\newcommand{\shelltext}[1]{\texttt{\textcolor{solarizedGreen}{#1}}}
+\newcommand{\shellprompt}{{\color{solarizedCyan}\%}}
+\newcommand\SH{\@ifnextchar*{\@firstoftwo\SH@one@star}\SH@two@pause}
+\newcommand\SH@one@star{\@ifnextchar*{\@firstoftwo\SH@no@pause}\SH@one@pause}
+\newcommand\SH@no@pause[2][\shellprompt]{#1 \shelltext{#2}}
+\newcommand\SH@one@pause[2][\shellprompt]{\SH@no@pause[#1]{#2\pause}}
+\newcommand\SH@two@pause[2][\shellprompt]{\SH@one@pause[#1]{\pause#2}}
+
+\newcommand{\shellcomment}{\textcolor{solarizedCyan}}
+\newcommand\CO[1]{\shellcomment{\# #1}}
+
+\newdimen\seq@ht
+\newdimen\seq@wd
+
+\newcommand\seq@next[1]{%
+  \@ifnextchar<
+    {\seq@continue{#1}}
+    {\seq@finish{#1}}%
+}
+
+\def\seq@continue#1<#2>#3{%
+  \setbox0=\hbox{#3}%
+  \@tempdima=\wd0%
+  \@tempdimb=\ht0%
+  \ifdim\@tempdima>\seq@wd\seq@wd=\@tempdima\fi
+  \ifdim\@tempdimb>\seq@ht\seq@ht=\@tempdimb\fi
+  \seq@next{#1\only<#2>{#3}}%
+}
+
+\newcommand\seq@finish[1]{%
+  \vbox to \seq@ht{\hbox to \seq@wd{\hfill#1\hfill}}%
+}
+
+\newcommand\seq[1]{{%
+  \seq@wd=0pt%
+  \seq@ht=0pt%
+  \seq@next{}#1%
+}}
+
+\newcounter{index@count}
+\newcounter{index@step}
+\newcommand\index@style{}
+
+\newcommand\setIndexCounterStyle[1]{%
+  \renewcommand\index@style{#1}%
+}
+
+\newcommand\resetIndexCounter[2][100]{%
+  \setcounter{index@count}{#1}%
+  \setcounter{index@step}{#2}%
+}
+
+\newcommand\changeIndexCounterStep{%
+  \setcounter{index@step}%
+}
+
+\newcommand\useIndexCounter{%
+  {\index@style{\theindex@count}}%
+  \addtocounter{index@count}{\value{index@step}}%
+}
+
+\newcommand<>\keyterm[1]{%
+  \textcolor#2{solarizedCyan}{#1}%
+}
+
+\newcommand\metavar[1]{%
+  \textcolor{solarizedBase01}{%
+    \normalfont
+    \ensuremath{
+      \langle
+      \text{%
+        \color{solarizedCyan}%
+        \rmfamily
+        \itshape
+        #1}
+      \rangle
+    }%
+  }%
+}
+
+\newcommand\listingfile[2][\relax]{%
+  \hfill#1{\color{solarizedViolet}\small\filename{#2}}%
+}
+
+\newcommand\flistingfile[1]{%
+  \listingfile[\fcolorbox{black}{white}]{\strut#1}%
+}
+
+\newcommand\CSetupFrame[1][\relax]{
+  \begin{frame}{Initial code setup}
+    The code in this course is available online.
+    To download a copy of this lecture into your Unix shell account:
+    \par
+    \begingroup
+    \ttfamily
+    \begin{tabular}{l}
+      \SH**{cd cs211} \\
+      \SH**{curl \$LEC211/\jobname.tgz | tar zxv} \\
+      \vdots \\
+      \SH**{cd \jobname} \\
+    \end{tabular}
+    \endgroup
+    #1
+  \end{frame}
+}
+
+\AtBeginSection[]{\sectionframe{\insertsectionhead}}
+\AtBeginSubsection[]{\subsectionframe{\insertsubsectionhead}}
+
