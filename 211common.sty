@@ -64,17 +64,21 @@
 
 \newcommand\codestyle@color[1]   {\ttfamily\color{#1!black}}
 
+\newcommand\codestyleDirective   {\codestyle@color{magenta!80}}
 \newcommand\codestyleLiteral     {\codestyle@color{violet!90}\slshape}
 \newcommand\codestyleKeyword     {\codestyle@color{green!30}\bfseries}
 
 \newcommand\codestyleStdMacro    {\codestyle@color{orange!40}\bfseries}
 \newcommand\codestyleLibMacro    {\codestyle@color{orange!40}\bfseries}
+\newcommand\codestyleCourseMacro {\codestyle@color{orange!40}\bfseries}
 
 \newcommand\codestyleStdType     {\codestyle@color{cyan!60}}
 \newcommand\codestyleLibType     {\codestyle@color{cyan!60}}
+\newcommand\codestyleCourseType  {\codestyle@color{cyan!60}}
 
 \newcommand\codestyleStdObject   {\codestyle@color{blue!60}}
 \newcommand\codestyleLibObject   {\codestyle@color{blue!60}}
+\newcommand\codestyleCourseObject{\codestyle@color{blue!60}}
 
 \colorlet{metavar@color}{DarkCyan}
 \newcommand\metavar[1]{%
@@ -86,19 +90,23 @@
 }
 
 \lstset{%
+  escapeinside={‹}{›},
   upquote=true,
   basicstyle=\codestyleBasic,
   commentstyle=\codestyleComment,
-  keywordstyle=\codestyleKeyword,
-  keywordstyle=[2]\codestyleStdMacro,
-  keywordstyle=[3]\codestyleLibMacro,
-  keywordstyle=[4]\codestyleStdType,
-  keywordstyle=[5]\codestyleLibType,
-  keywordstyle=[6]\codestyleStdObject,
-  keywordstyle=[7]\codestyleLibObject,
+  directivestyle=\codestyleDirective,
   stringstyle=\codestyleLiteral,
   numberstyle=\codestyleLiteral,
-  escapeinside={‹}{›},
+  keywordstyle=[1]\codestyleStdObject,
+  keywordstyle=[2]\codestyleKeyword,
+  keywordstyle=[3]\relax,  % empty
+  keywordstyle=[4]\codestyleStdType,
+  keywordstyle=[5]\codestyleStdMacro,
+  keywordstyle=[6]\codestyleLibType,
+  keywordstyle=[7]\codestyleLibObject,
+  keywordstyle=[8]\codestyleCourseMacro,
+  keywordstyle=[9]\codestyleCourseType,
+  keywordstyle=[10]\codestyleCourseObject,
 }
 
 \newcommand\inputText[1]{\textbf{\textcolor{magenta!60!black}{#1}}}
