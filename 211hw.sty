@@ -5,7 +5,10 @@
 \ProcessOptions\relax
 
 \RequirePackage{tikz}
+\RequirePackage{booktabs}
 \RequirePackage{211common}
+
+\usetikzlibrary{calc}
 
 \newcommand\HWROOT{\WEBROOT/hw}
 
@@ -106,7 +109,7 @@
 
   \newcommand\CPrelims[1]{
     Login
-    \marginpar{
+    \aside{
     This homework assignment must be completed on Linux by logging into
     \href
       {http://it.eecs.northwestern.edu/info/2015/11/03/info-labs.html}
@@ -114,7 +117,9 @@
       Each time you login to work on \COURSENO,
       you need to run the \progname{dev} command
       (as set up in \href{\WEBROOT/lab/lab01.pdf}{Lab 1}).
-    }
+
+    }%
+    \aside{\vspace{2em}\small\tableofcontents}%
     to the server of your choice and \progname{cd} to the
     directory where you keep your \COURSENO\ work. Then download and
     unarchive the starter code, and change into the project directory:
@@ -195,17 +200,18 @@
 
   }
 
-\newcommand\MakeTitle{
+\newcommand\MakeTitle[1][\relax]{
   \maketitle
   \if@cxx\begin{center}\fi
-  \begin{tabular}{llr}
+  \begin{tabular}[t]{llr}
     \DueDateRows
     Partners:
     & \if@partner@allowed
         Yes; register on GSC before submission
       \else
         No; must be completed by yourself
-      \fi \\
+      \fi
   \end{tabular}
+  \ifx#1\relax\else\aside{#1}\fi
   \if@cxx\end{center}\bigskip\fi
 }
