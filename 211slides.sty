@@ -101,7 +101,7 @@
   every object/.style={
     common object = solarizedOrange,
     font = \ttfamily\slshape\color{solarizedCyan},
-    fill = none,
+    fill = white,
   },
   every vector/.style={
     common object = solarizedGreen,
@@ -134,29 +134,36 @@
   },
 }
 
+\newcommand\don@tHyphenate{\hyphenpenalty=10000\relax}
 \tikzset{
   note/.style={
     rectangle callout,
     anchor = pointer,
     very thick,
+    align = center,
+    callout relative pointer = {(#1)},
+    font = \color{solarizedBase01}\footnotesize\don@tHyphenate,
+    note width,
+    note color,
+  },
+  note/.default = {0,-.5},
+  note width/.style={
+      text width = #1\paperwidth,
+  },
+  note width/.default = 0.2,
+  note color/.style={
     draw = #1!50!solarizedBase00,
     fill = #1!8!solarizedBase2,
-    font = \color{solarizedBase01}\footnotesize,
   },
-  note/.default = solarizedGreen,
+  note color/.default = solarizedGreen,
 }
 
 \newcommand<>\Note[3][]{%
   {%
-    \hyphenpenalty=10000\relax
     \tikz[overlay, remember picture]
-      \node#4 [
-        note,
-        align = center,
-        callout relative pointer = {(#2)},
-        text width = 0.2\paperwidth,
-        #1
-      ] {\ignorespaces #3};%
+      \node#4 [note={#2}, #1] {%
+        \lstset{basicstyle=\ttfamily\color{black}}%
+        \ignorespaces #3};%
   }\ignorespaces
 }
 
@@ -165,6 +172,7 @@
 }
 \def\dwasp{\wasp\hfill\wasp\hfill}
 \def\qwasp{\dwasp\dwasp}
+\def\owasp{\qwasp\qwasp}
 
 \newcommand\BigMenlo{\normalsize\fontspec[Scale=3]{Menlo}}
 
@@ -213,7 +221,7 @@
     font=\rmfamily\scshape,
     line width=2pt,
     #1
-  ] {Crash!};%
+  ] {!?!?!};%
 }
 
 \def\VarObj#1 = #2;{%
