@@ -4,9 +4,9 @@
 \DeclareOption*{\PassOptionsToPackage{\CurrentOption}{211common}}
 \ProcessOptions\relax
 
+\RequirePackage{211common}
 \RequirePackage{tikz}
 \RequirePackage{booktabs}
-\RequirePackage{211common}
 
 \usetikzlibrary{calc}
 
@@ -83,7 +83,9 @@
   \fi
   \def\DueDateRows{
     Code Due:      & #2, \DeadlineTime \\
+    \if#3\relax\else
     Self-Eval Due: & #3, \DeadlineTime \\
+    \fi
   }
 }
 
@@ -232,3 +234,4 @@
 \newcommand\specpoint[2][\relax]{\specanchor{#2}\hintref[#1]{#2}}
 \newcommand\hintpoint[2][\relax]{\hintanchor{#2}\specref[#1]{#2}}
 
+\CaretCode

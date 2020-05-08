@@ -19,14 +19,14 @@
 \DeclareOption*{\PassOptionsToPackage{\CurrentOption}{211lang}}
 \ProcessOptions\relax
 
+\RequirePackage{211lang}
+\RequirePackage[svgnames]{xcolor}
 \RequirePackage{fancyvrb}
 \RequirePackage{microtype}
 \RequirePackage{url}
 \RequirePackage{underscore}
 \RequirePackage{amsmath}
-\RequirePackage[dvipsnames]{xcolor}
 \RequirePackage{hyperref}
-\RequirePackage{211lang}
 
 \newcommand\@pad@two[1]{\@pad@two@check#1\\}
 \newcommand\@pad@two@check[2]{%
@@ -38,7 +38,7 @@
 
 \newcommand\ZII@shade{85}
 \colorlet{ZII@linkcolor}{violet}
-\colorlet{ZII@citecolor}{YellowOrange}
+\colorlet{ZII@citecolor}{Goldenrod}
 \colorlet{ZII@urlcolor}{NavyBlue}
 
 \hypersetup{

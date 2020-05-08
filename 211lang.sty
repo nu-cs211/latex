@@ -188,15 +188,21 @@
   \lstinline
 }
 
-\let\sup^
-\catcode`^\active
-\def^{\@ifnextchar^\nb@textCode\br@textCode}
-\def\nb@textCode^#1^^{\textCode{#1}}
-\def\br@textCode#1^{{%
-  \lstset{
-    breaklines=true,
-    breakatwhitespace=true,
-  }%
-  \textCode{#1}%
-}}
-
+\let\saved@sup^
+{
+  \catcode`^\active
+  \gdef\XII@textCode{\@ifnextchar^\XII@nb@textCode\XII@br@textCode}
+  \gdef\XII@nb@textCode^#1^^{\textCode{#1}}
+  \gdef\XII@br@textCode#1^{{%
+    \lstset{
+      breaklines=true,
+      breakatwhitespace=true,
+    }%
+    \textCode{#1}%
+  }}
+  \gdef\CaretCode{%
+    \let^\XII@textCode
+    \let\sup\saved@sup
+    \catcode`^\active
+  }
+}
