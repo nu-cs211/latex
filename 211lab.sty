@@ -9,18 +9,19 @@
 \newcommand\LabBaseUrl{\WEBROOT/lab}
 \newcommand\ThisLabTgz{\LabBaseUrl/\ThisLabBase.tgz}
 \newcommand\ThisLabZip{\LabBaseUrl/\ThisLabBase.zip}
+\newcommand\CxxSetupUrl{\WEBROOT/notes/toolchain_setup.html}
+\newcommand\CxxLinuxUrl{\WEBROOT/notes/ge211_linux.html}
 
 \newcommand\CxxPrelims@toolchain{
   \subsection{Toolchain setup}
 
   Like the remaining homeworks, this lab is designed to be done on your
   own computer, which means you need a C++14 toolchain and the SDL2
-  libraries installed. Follow \href{\CxxSetupUrl}{these
-  instructions} to setup your computer for C++ and GE211.
-  \marginpar{
-    If you ever need to work on one of the lab computers,
-    you can find \href{\CxxLinuxUrl}{instructions here}.
-  }
+  libraries installed. Follow \href{\CxxSetupUrl}{these instructions} to setup your computer for C++ and GE211.
+  % \marginpar{
+  %   If you ever need to work on one of the lab computers,
+  %   you can find \href{\CxxLinuxUrl}{instructions here}.
+  % }
 }
 
 \newcommand\CxxPrelims@project{
@@ -55,7 +56,7 @@
   \def\ThisLabBase{lab\@pad@two{#1}}
   \title{CS 211 Lab #1}
   \author{#2}
-  \date{Winter 2020}
+  \date{Spring 2020}
 }
 
 \CaretCode
