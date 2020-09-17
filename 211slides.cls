@@ -1,8 +1,14 @@
+% vim: se ft=tex:
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{211slides}[2020/01/06 0.2]
+\ProvidesClass{211slides}[2020/09/17 0.3]
+\LoadClass[xetex,aspectratio=169]{beamer}
 
-\def\COURSE{CS 211}
-\def\TERM{Spring 2020}
+\def\CourseName{CS 211}
+
+\newcommand\LecInfo[1]{
+  \title{#1}
+  \author{\CourseName}
+}
 
 \DeclareOption*{\PassOptionsToPackage{\CurrentOption}{211lang}}
 \ProcessOptions\relax
@@ -17,6 +23,7 @@
 \RequirePackage{tikz}
 \RequirePackage{boxnarrow}
 \RequirePackage{hyperref}
+\RequirePackage{booktabs}
 \RequirePackage{211lang}
 
 \usetikzlibrary{
@@ -59,39 +66,41 @@
   }%
 }
 
+%% booktabs config
+\heavyrulewidth=2pt
+\lightrulewidth=1.25pt
+
 %% Font setup
-\setallmainfonts[Numbers=Lining]{Zeitung Pro}
-\setallsansfonts[Numbers=Lining]{Zeitung Pro}
-\setallmonofonts[Scale=MatchLowercase]{Input Mono Condensed}
-\def\commentFont{\fontspec{Input Mono Compressed}\itshape}
+\def  \MainFace                 {NHaasGroteskDSPro-55Rg}
+\def  \MainFaceLight            {NHaasGroteskDSPro-35XLt}
+\def  \MonoFace                 {Input Mono Condensed}
+\def  \MonoFaceNarrow           {Input Mono Compressed}
+
+\setallmainfonts[Numbers=Lining]{\MainFace}
+\setallsansfonts[Numbers=Lining]{\MainFace}
+\setallmonofonts[Scale=MatchLowercase]{\MonoFace}
+\def\commentFont{\fontspec{\MonoFaceNarrow}\itshape}
 
 \setbeamertemplate{title page}{%
   \begin{center}
     {%
       \color{solarizedBlue}%
-      \fontspec[Scale=4]{Zeitung Pro Thin}%
-      \baselineskip=1em\relax%
-      \inserttitle \par \bigskip
-    }{%
-      \fontspec[Scale=1.3]{Input Mono}%
-      \insertauthor/\insertdate
+      \fontspec[Scale=4]{\MainFace}%
+      \inserttitle
+      \par\bigskip
+    }
+    {%
+      \fontspec[Scale=1.8]{\MainFaceLight}%
+      \insertauthor
     }%
   \end{center}
 }
 
-\setbeamercolor{alerted text}{fg=solarizedViolet}
-\setbeamercolor*{frametitle}{fg=solarizedYellow}
-\setbeamercolor*{title}{fg=solarizedBlue}
+\setbeamersize{text margin left=.75in,text margin right=.75in}
 
-\newcommand\ctutor[2][Try on C Tutor]{%
-  % \tikz[overlay, remember picture]
-  %   \node[anchor=north east] at (current page.north east) {
-  %     \footnotesize
-  %     \textcolor{solarizedBlue}{%
-  %       \underline{%
-  %         \href{#2}{%
-  %           #1 \rotatebox[origin=c]{270}{$\Lsh$}}}}};%
-}
+\setbeamercolor{alerted text}{fg=solarizedViolet}
+\setbeamercolor*{frametitle}{fg=solarizedCyan}
+\setbeamercolor*{title}{fg=solarizedBlue}
 
 \tikzset{
   common object/.style={
@@ -248,22 +257,6 @@
        #1
      ] {\begin{tabular}{@{}r@{\VarSep}l@{}}#2\end{tabular}};}
 
-\newcommand\LecInfo[1]{
-  \title{#1}
-  \author{\COURSE}
-  \date{\TERM}
-}
-
-% ZII means 211
-\newcommand{\ZII@plain@frame}[1]{
-  \begin{frame}{}{}
-    \thispagestyle{empty}
-    \begin{center}
-      #1
-    \end{center}
-  \end{frame}
-}
-
 \def\ZII@hyper#1{%
   \if#1\relax
     \let\@ZII@hyper@wrap\relax
@@ -272,21 +265,60 @@
   \fi
   \@ZII@hyper@wrap
 }
+% ZII means 211
 
-\newcommand{\sectionframe}[2][\relax]{
+\newcommand\PlainFrame[3][t]{
+  \begin{frame}[#1]{#2}{}
+    \thispagestyle{empty}
+    #3
+  \end{frame}
+}
+
+\newcommand\DarkFrame[3][t]{
   \setSolarizedDark
-  \ZII@plain@frame{%
-    \color{solarizedBlue}
-    \ZII@hyper{#1}{\LARGE\ignorespaces#2}
-  }%
+  \PlainFrame[#1]{#2}{#3}
   \setSolarizedLight
 }
 
-\newcommand{\subsectionframe}[2][\relax]{
-  \ZII@plain@frame{%
-    \color{solarizedBlue}
-    \ZII@hyper{#1}{\Large\ignorespaces#2}
-  }%
+\newcommand\TitleFrame{
+  \PlainFrame[c]{}{\titlepage}
+}
+
+\newcommand\CenterFrame[3][c]{
+  \PlainFrame[#1]{#2}{
+    \begin{center}
+      #3
+    \end{center}
+  }
+}
+
+\newcommand\TitleHead{
+  \hfill
+  \fontspec{\MainFaceLight}%
+  \color{solarizedBlue}%
+  \hyperlink{page.1}{\inserttitle}%
+}
+
+\newcommand\RoadMapFrame{
+  \PlainFrame[t]{Road map\TitleHead}{
+    \tableofcontents[pausesections]%
+    \vskip0pt plus10fill\relax
+  }
+}
+
+\newcommand\ProgressFrame[1]{
+  \DarkFrame[t]{Up next\TitleHead}{
+    \tableofcontents[#1]
+    \vskip0pt plus10fill\relax
+  }
+}
+
+\newcommand\SectionFrame[1][]{
+  \ProgressFrame{sectionstyle=show/shaded,subsectionstyle=shaded}
+}
+
+\newcommand\SubsectionFrame[1][]{
+  \ProgressFrame{sectionstyle=shaded,subsectionstyle=show/shaded}
 }
 
 \newcommand\progname[1]{\BasicCodeText{\textsl{#1}}}
@@ -328,7 +360,7 @@
 \lstset{
   escapeinside={«»},
   upquote=true,
-  basicstyle=\ttfamily,
+  basicstyle=\ttfamily\color{solarizedRebase0},
   commentstyle=\textC, % Comment
   directivestyle=\textP, % Comment
   stringstyle=\textL, % Literal
@@ -346,7 +378,7 @@
 {%
   \begingroup
   \lstset{language=sh,
-    basicstyle=\ttfamily,
+    basicstyle=\ttfamily\color{solarizedRebase0},
     keywordstyle=\color{solarizedGreen},
     stringstyle=\color{solarizedCyan},
     commentstyle=\color{solarizedBase00}\rmfamily\slshape,
@@ -357,15 +389,15 @@
   \endgroup
 }
 
-\newcommand{\shelltext}[1]{\texttt{\textcolor{solarizedGreen}{#1}}}
-\newcommand{\shellprompt}{{\color{solarizedCyan}\%}}
+\newcommand\shelltext[1]{\texttt{\textcolor{solarizedGreen}{#1}}}
+\newcommand\shellprompt{{\color{solarizedCyan}\%}}
 \newcommand\SH{\@ifnextchar*{\@firstoftwo\SH@one@star}\SH@two@pause}
 \newcommand\SH@one@star{\@ifnextchar*{\@firstoftwo\SH@no@pause}\SH@one@pause}
 \newcommand\SH@no@pause[2][\shellprompt]{#1 \shelltext{#2}}
 \newcommand\SH@one@pause[2][\shellprompt]{\SH@no@pause[#1]{#2\pause}}
 \newcommand\SH@two@pause[2][\shellprompt]{\SH@one@pause[#1]{\pause#2}}
 
-\newcommand{\shellcomment}{\textcolor{solarizedCyan}}
+\newcommand\shellcomment{\textcolor{solarizedCyan}}
 \newcommand\CO[1]{\shellcomment{\# #1}}
 
 \newdimen\seq@ht
@@ -428,7 +460,7 @@
     \ensuremath{
       \langle
       \text{%
-        \color{solarizedCyan}%
+        \color{solarizedViolet}%
         \rmfamily
         \itshape
         #1}
@@ -445,6 +477,16 @@
   \listingfile[\fcolorbox{black}{white}]{\strut#1}%
 }
 
+\newcommand\UseVar[1]{\csname ZII@Var@#1\endcsname}
+
+\newcommand\SetVar[3][1]{%
+  \only<#1->{%
+    \expandafter\def\csname ZII@Var@#2\endcsname{#3}}}
+
+\newcommand<>\CodeCursor[1][solarizedRed]{%
+  \uncover#2{\textcolor{#1}{$\blacktriangleright$}}%
+}
+
 \newcommand\CSetupFrame[1][\relax]{
   \begin{frame}{Initial code setup}
     The code in this course is available online.
@@ -454,7 +496,7 @@
     \ttfamily
     \begin{tabular}{l}
       \SH**{cd cs211} \\
-      \SH**{curl \$LEC211/\jobname.tgz | tar zxv} \\
+      \SH**{curl \$LEC211/\jobname.tgz | tar zxvk} \\
       \vdots \\
       \SH**{cd \jobname} \\
     \end{tabular}
@@ -463,7 +505,9 @@
   \end{frame}
 }
 
-\AtBeginSection[]{\sectionframe{\insertsectionhead}}
-\AtBeginSubsection[]{\subsectionframe{\insertsubsectionhead}}
+\AtBeginSection[]{\SectionFrame}
+\AtBeginSubsection[]{\SubsectionFrame}
+
+\newcommand\UnSkip[1][1]{\vspace{-#1\baselineskip}}
 
 \CaretCode
