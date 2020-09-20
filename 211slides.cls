@@ -500,14 +500,14 @@
 
 \newcommand\CSetupFrame[1][\relax]{
   \begin{frame}{Initial code setup}
-    The code in this course is available online.
-    To download a copy of this lecture into your Unix shell account:
+    The code in this course is available in your Unix shell account.
+    You can get your own copy like this:
     \par
     \begingroup
     \ttfamily
     \begin{tabular}{l}
       \SH**{cd cs211} \\
-      \SH**{curl \$LEC211/\jobname.tgz | tar zxvk} \\
+      \SH**{tar -xvkf \~{}cs211/lec/\jobname.tgz} \\
       \vdots \\
       \SH**{cd \jobname} \\
     \end{tabular}
