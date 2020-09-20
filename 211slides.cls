@@ -292,6 +292,17 @@
   }
 }
 
+\newcommand\NextTimeFrame[1]{
+  \CenterFrame{}{-- Next time: #1 --}
+}
+
+\newcommand\IntentionallyBlankFrame{
+  \CenterFrame{}{
+    \tiny
+    \XII@textCode struct page* intentionally_blank = NULL;^
+  }
+}
+
 \newcommand\TitleHead{
   \hfill
   \fontspec{\MainFaceLight}%
