@@ -73,13 +73,12 @@
 %% Font setup
 \def  \MainFace                 {NHaasGroteskDSPro-55Rg}
 \def  \MainFaceLight            {NHaasGroteskDSPro-35XLt}
-\def  \MonoFace                 {Input Mono Condensed}
-\def  \MonoFaceNarrow           {Input Mono Compressed}
+\def  \MonoFace                 {Input Mono Compressed}
 
 \setallmainfonts[Numbers=Lining]{\MainFace}
 \setallsansfonts[Numbers=Lining]{\MainFace}
 \setallmonofonts[Scale=MatchLowercase]{\MonoFace}
-\def\commentFont{\fontspec{\MonoFaceNarrow}\itshape}
+\def\commentFont{\fontspec{\MonoFace}\itshape}
 
 \setbeamertemplate{title page}{%
   \begin{center}
