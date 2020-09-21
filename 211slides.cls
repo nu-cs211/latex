@@ -1,4 +1,3 @@
-% vim: se ft=tex:
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{211slides}[2020/09/17 0.3]
 \LoadClass[xetex,aspectratio=169]{beamer}
@@ -24,6 +23,7 @@
 \RequirePackage{boxnarrow}
 \RequirePackage{hyperref}
 \RequirePackage{booktabs}
+\RequirePackage{underscore}
 \RequirePackage{211lang}
 
 \usetikzlibrary{
