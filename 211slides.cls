@@ -354,7 +354,9 @@
 
 \newcommand\ErrorText[1]{\textcolor{solarizedRed}{#1}}
 
-\newcommand\BasicCodeText[1]{{\normalfont\ttfamily #1}}
+\colorlet{PlainCode}{solarizedRebase2}
+
+\newcommand\BasicCodeText[1]{\textcolor{PlainCode}{\normalfont\ttfamily #1}}
 \newcommand\KeywordText[1]{\BasicCodeText{\textKeyword*{#1}}}
 \newcommand\DataTypeText[1]{\BasicCodeText{\textData*{#1}}}
 \newcommand\FunctionText[1]{\BasicCodeText{\textFunction*{#1}}}
@@ -370,7 +372,7 @@
 \lstset{
   escapeinside={«»},
   upquote=true,
-  basicstyle=\ttfamily\color{solarizedRebase0},
+  basicstyle=\ttfamily\color{PlainCode},
   commentstyle=\textC, % Comment
   directivestyle=\textP, % Comment
   stringstyle=\textL, % Literal
@@ -388,7 +390,7 @@
 {%
   \begingroup
   \lstset{language=sh,
-    basicstyle=\ttfamily\color{solarizedRebase0},
+    basicstyle=\ttfamily\color{PlainCode},
     keywordstyle=\color{solarizedGreen},
     stringstyle=\color{solarizedCyan},
     commentstyle=\color{solarizedBase00}\rmfamily\slshape,
