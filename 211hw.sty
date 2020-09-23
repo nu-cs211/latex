@@ -117,18 +117,20 @@
       {http://it.eecs.northwestern.edu/info/2015/11/03/info-labs.html}
       {a Linux server or one of the Wilkinson Lab machines}.
       Each time you login to work on \COURSENO,
-      you need to run the \progname{dev} command
-      (as set up in \href{\WEBROOT/lab/lab01.pdf}{Lab 1}).
-
+      you should run \progname{fish} to ensure your environment is
+      setup correctly. (If your shell says that \progname{fish}
+      isn't found, that probably means you missed the step in Lab 1
+      where you were supposed to run
+      \texttt{\plaintilde jesse/setup211}.)
     }%
     \aside{\vspace{2em}\small\tableofcontents}%
     to the server of your choice and \progname{cd} to the
-    directory where you keep your \COURSENO\ work. Then download and
+    directory where you keep your \COURSENO\ work. Then
     unarchive the starter code, and change into the project directory:
     \par
     \begin{CmdLine}
       \C cd cs211 \\
-      \C curl \$HW211/hw\hw@number@padded.tgz | tar zvxk \\
+      \C tar -kxvf \plaintilde cs211/hw/hw01.tgz \\
       \ETC
       \C cd hw\hw@number@padded \\
       \NoPrompt
