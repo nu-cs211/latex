@@ -21,10 +21,10 @@
 \RequirePackage{alltt}
 \RequirePackage{tikz}
 \RequirePackage{boxnarrow}
-\RequirePackage{hyperref}
 \RequirePackage{booktabs}
 \RequirePackage{underscore}
 \RequirePackage{211lang}
+\RequirePackage{hyperref}
 
 \usetikzlibrary{
   backgrounds,
