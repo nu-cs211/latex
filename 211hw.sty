@@ -221,7 +221,9 @@
 %% Cross-refs
 
 \newcommand\crossref[2]{%
-  \raise.8ex\hbox{\normalfont\scriptsize[\hyperref[#1]{\slshape #2}]}%
+  \kern2pt\raise.8ex
+    \hbox{\normalfont\scriptsize[\hyperref[#1]{\slshape #2}]}%
+  \allowbreak
 }
 
 \newcommand\specanchor[1]{\phantomsection\label{spec:#1}}
