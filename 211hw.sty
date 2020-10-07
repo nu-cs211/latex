@@ -236,4 +236,8 @@
 \newcommand\specpoint[2][\relax]{\specanchor{#2}\hintref[#1]{#2}}
 \newcommand\hintpoint[2][\relax]{\hintanchor{#2}\specref[#1]{#2}}
 
+\newcommand\functionhint[2]{%
+  \hintpoint[{<<} \functionref{#2}{} spec]{#1}%
+}
+
 \CaretCode
