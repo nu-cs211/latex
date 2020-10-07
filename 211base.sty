@@ -1,0 +1,47 @@
+% vim: se et:
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{211base}[2020/10/6 0.0.1]
+
+{
+  \catcode`~11\relax
+  \gdef\plaintilde{\hbox{~}}
+}
+
+\newcommand\TERM{Fall 2020}
+\newcommand\COURSENO{CS 211}
+
+\newcommand\CSTYLEURL{https://canvas.northwestern.edu/courses/120095/pages/cs-211-style-manual}
+
+\newcommand\SHELLROOT{\plaintilde cs211}
+\newcommand\WEBROOT{https://users.cs.northwestern.edu/~jesse/course/cs211-files}
+
+\newcommand\LabBasePath{\SHELLROOT/lab}
+\newcommand\LabBaseUrl{\WEBROOT/lab}
+\newcommand\ThisLabTgz{\LabBasePath/\ThisLabBase.tgz}
+\newcommand\ThisLabZip{\LabBaseUrl/\ThisLabBase.zip}
+\newcommand\CxxSetupUrl{\WEBROOT/notes/toolchain_setup.html}
+\newcommand\CxxLinuxUrl{\WEBROOT/notes/ge211_linux.html}
+
+\newcommand\LabHostnames@Url
+  {it.eecs.northwestern.edu/info/2015/11/03/info-labs.html\#workstations}
+\newcommand\LabHostnames@ShortUrl
+  {https://bit.ly/3c1qyui}
+\newcommand\LabHostnamesLink
+  {\href{\LabHostnames@ShortUrl}{{\UrlFont{\LabHostnames@Url}}}}
+
+\def\ThisLabBase{\errmessage{
+  You need to call \noexpand\LabInfo to define \noexpand\ThisLabBase.
+}}
+
+\newcommand\@pad@two[1]{\@pad@two@check#1\\}
+\newcommand\@pad@two@check[2]{%
+  \ifx#2\\0\fi
+  #1%
+}
+
+\newcommand\LabInfo[2]{
+  \def\ThisLabBase{lab\@pad@two{#1}}
+  \title{\COURSENO\ Lab #1}
+  \author{#2}
+  \date{\TERM}
+}
