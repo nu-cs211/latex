@@ -298,7 +298,11 @@
 \newcommand\IntentionallyBlankFrame{
   \CenterFrame{}{
     \tiny
-    \XII@textCode struct page* intentionally_blank = NULL;^
+    \if@cxx
+      \textCode{Page* intentionally_blank = nullptr;}
+    \else
+      \textCode{struct page* intentionally_blank = NULL;}
+    \fi
   }
 }
 
