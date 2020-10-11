@@ -485,12 +485,16 @@
   }%
 }
 
-\newcommand\listingfile[2][\relax]{%
-  \hfill#1{\color{solarizedViolet}\small\filename{#2}}%
+\newcommand\listingfiletext[1]{%
+  {\color{solarizedViolet}\ttfamily\small#1}%
 }
 
-\newcommand\flistingfile[1]{%
-  \listingfile[\fcolorbox{black}{white}]{\strut#1}%
+\newcommand\listingfileframe[1]{%
+  \fcolorbox{black}{white}{#1}%
+}
+
+\newcommand\listingfile[1]{%
+  \hfill\listingfileframe{\listingfiletext{#1}}%
 }
 
 \newcommand\UseVar[1]{\csname ZII@Var@#1\endcsname}
