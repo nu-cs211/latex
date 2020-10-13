@@ -84,12 +84,16 @@
   \begin{center}
     {%
       \color{solarizedBlue}%
-      \fontspec[Scale=4]{\MainFace}%
+      \fontspec{\MainFaceLight}%
+      \fontsize{48pt}{50pt}%
+      \selectfont
       \inserttitle
       \par\bigskip
     }
     {%
-      \fontspec[Scale=1.8]{\MainFaceLight}%
+      \fontspec{\MainFace}%
+      \fontsize{20pt}{22pt}%
+      \selectfont
       \insertauthor
     }%
   \end{center}
