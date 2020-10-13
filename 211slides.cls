@@ -186,6 +186,22 @@
 \def\qwasp{\dwasp\dwasp}
 \def\owasp{\qwasp\qwasp}
 
+\colorlet{BloodRed}{solarizedRed!75!black}
+\colorlet{BloodPink}{solarizedRed!50!white}
+
+\newcommand\textUB@common[3]{{%
+  \fontspec[Scale=#1]{#2}%
+  \ifsolarizedlight
+    \color{BloodRed}%
+  \else
+    \color{BloodPink}%
+  \fi
+  #3%
+}}
+
+\newcommand\textUB[1][1.2]{\textUB@common{#1}{Shlop}}
+\newcommand\TEXTUB[1][1.2]{\textUB@common{#1}{ShlopShloppy-Regular}}
+
 \newcommand\BigMenlo{\normalsize\fontspec[Scale=3]{Menlo}}
 
 \newcommand<>\SUCCESS[1][]{%
