@@ -23,6 +23,7 @@
 \RequirePackage{boxnarrow}
 \RequirePackage{booktabs}
 \RequirePackage{underscore}
+\RequirePackage{211base}
 \RequirePackage{211lang}
 \RequirePackage{hyperref}
 
