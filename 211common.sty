@@ -111,7 +111,9 @@
   \Cmd@prompt@cont{\Cmd@status{#1}}%
 }
 
-\newenvironment{CmdLine}[1][3em]
+\newlength\CmdLineIndent
+\setlength\CmdLineIndent{3em}
+\newenvironment{CmdLine}[1][\CmdLineIndent]
   {%
     \ttfamily
     \let\O\Cmd@output
