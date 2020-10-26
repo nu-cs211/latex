@@ -39,7 +39,7 @@
 \newcommand\functionname[1]{\textsl{#1}}
 \newcommand\functionref[2]{\functionname{#1}(#2)}
 \newcommand\promptchar{\%}
-\newcommand\prompt{{\normalfont\ttfamily\itshape\promptchar}}
+\newcommand\prompt{{\normalfont\texttt{\color{gray}\promptchar}}}
 \newcommand\cmdline[1]{\prompt{\normalfont\ttfamily~#1}}
 \newcommand\keycombo[1]{\textsf{#1}}
 
@@ -49,7 +49,7 @@
 \newcommand\codestyle@color[1]   {\ttfamily\color{#1!black}}
 
 \newcommand\codestyleDirective   {\codestyle@color{magenta!80}}
-\newcommand\codestyleLiteral     {\codestyle@color{violet!90}\slshape}
+\newcommand\codestyleLiteral     {\codestyle@color{violet!90}}
 \newcommand\codestyleKeyword     {\codestyle@color{green!30}\bfseries}
 
 \newcommand\codestyleStdMacro    {\codestyle@color{orange!40}\bfseries}
