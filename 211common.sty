@@ -18,6 +18,8 @@
 
 \urlstyle{sf}
 
+\definecolor{WildcatPurple}{RGB}{59,47,119}
+
 \newcommand\ZII@shade{85}
 \colorlet{ZII@linkcolor}{violet}
 \colorlet{ZII@citecolor}{Goldenrod}
@@ -91,7 +93,8 @@
   keywordstyle=[10]\codestyleCourseObject,
 }
 
-\newcommand\inputText[1]{\textbf{\textcolor{magenta!60!black}{#1}}}
+\newcommand\inputText[1]{%
+  \textbf{\textcolor{WildcatPurple!90!white}{#1}}}
 
 \def\Cmd@output#1\\{\item{#1}}
 \def\Cmd@prompt@cont#1#2\\{\Cmd@output#1\prompt~\inputText{#2}\\}
