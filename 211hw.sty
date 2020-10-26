@@ -146,17 +146,17 @@
 
   \if@cxx
 
-  You should upload your files on
-  \href{https://cs211.cs.northwestern.edu/gsc}{the GSC web
-  site}.\aside{It’s also possible to install the command-line GSC
-  client \texttt{\textbf{gsc}(1)} on your local machine.}
+    You should upload your files on
+    \href{https://cs211.cs.northwestern.edu/gsc}{the GSC web
+    site}.\aside{It’s also possible to install the command-line GSC client
+    \texttt{\textbf{gsc}(1)} on your local machine.}
 
   \else
 
-  Submit using the command-line GSC client \texttt{\textbf{gsc}(1)}.
-  Instructions are available in the \texttt{\textbf{submit211}(7)}
-  manual page on the Unix login and lab machines. To view the manual
-  page, run:
+    Submit using the command-line GSC client \texttt{\textbf{gsc}(1)}.
+    Instructions are available in the \texttt{\textbf{submit211}(7)}
+    manual page on the Unix login and lab machines. To view the manual
+    page, run:
 
     \begin{CmdLine}[#1]
       \C man submit211 \\
@@ -167,44 +167,45 @@
 
   \if@partner@allowed
 
-  \subsection{Partners}
+    \subsection{Partners}
 
-  If you work with a partner then you must register\aside{Be
-  careful with partner registration, because once a partner request is
-  accepted, undoing it requires an appeal to the instructor.} your
-  partnership \textbf{before uploading to GSC}. There are two steps to
-  this: one partner must create a \emph{partner request} (referring to
-  their intended partner by NetID), and then the other partner must
-  accept that request for it to take effect.
+    If you work with a partner then you must register\aside{Be careful
+    with partner registration, because once a partner request is
+    accepted, undoing it requires an appeal to the instructor.} your
+    partnership \textbf{before uploading to GSC}. There are two steps to
+    this: one partner must create a \emph{partner request} (referring to
+    their intended partner by NetID), and then the other partner must
+    accept that request for it to take effect.
 
-  \if@cxx
+    \if@cxx
 
-  Create partner requests on the GSC website or using the command-line
-  tool; outstanding partner requests will appear on the page for the
-  relevant homework as well as your main GSC submissions page.
+      Create partner requests on the GSC website or using the
+      command-line tool; outstanding partner requests will appear on the
+      page for the relevant homework as well as your main GSC
+      submissions page.
 
-  \else
+    \else
 
-  Partner requests are created with the \texttt{gsc partner request}
-  command and accepted using  using the \texttt{gsc partner accept}
-  command. You can list outstanding partner requests with the
-  \texttt{gsc status} command and cancel them with the \texttt{gsc
-  partner cancel} command.\marginpar{It’s also possible to manage
-  partner requests via the website.} See the \texttt{\textbf{gsc}(1)}
-  manual page for details.
+      Partner requests are created with the \texttt{gsc partner request}
+      command and accepted using  using the \texttt{gsc partner accept}
+      command. You can list outstanding partner requests with the
+      \texttt{gsc status} command and cancel them with the \texttt{gsc
+      partner cancel} command.\marginpar{It’s also possible to manage
+      partner requests via the website.} See the
+      \texttt{\textbf{gsc}(1)} manual page for details.
+
+    \fi
+
+    Before a partner request can be accepted, the files in the two
+    submissions must be disjoint. (The system will not choose whose file
+    to delete if you both have files with the same name.) Once a partner
+    request is accepted, you and your partner's submissions are joined
+    together: when one partner uploads files to the GSC server or
+    performs self evaluation, the results will be visible to both.
 
   \fi
 
-  Before a partner request can be accepted, the files in the two
-  submissions must be disjoint. (The system will not choose whose file
-  to delete if you both have files with the same name.) Once a partner
-  request is accepted, you and your partner's submissions are joined
-  together: when one partner uploads files to the GSC server or performs
-  self evaluation, the results will be visible to both.
-
-  \fi
-
-  }
+}
 
 \newcommand\MakeTitle[1][\relax]{
   \maketitle
