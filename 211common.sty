@@ -1,7 +1,3 @@
-% vim: se et:
-\NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{211common}[2020/04/11 0.0.1]
-
 \DeclareOption*{\PassOptionsToPackage{\CurrentOption}{211lang}}
 \ProcessOptions\relax
 
@@ -73,9 +69,13 @@
   }%
 }
 
+\newlength\CodeIndent
+\CodeIndent=\parindent
+
 \lstset{%
   escapeinside={‹}{›},
   upquote=true,
+  xleftmargin=\CodeIndent,
   basicstyle=\codestyleBasic,
   commentstyle=\codestyleComment,
   directivestyle=\codestyleDirective,
