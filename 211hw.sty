@@ -226,23 +226,49 @@
 %% Cross-refs
 
 \newcommand\crossref[2]{%
-  \kern2pt\raise.8ex
-    \hbox{\normalfont\scriptsize[\hyperref[#1]{\slshape #2}]}%
+  \kern2pt\raise.8ex\hbox{%
+    \normalfont\scriptsize
+    [\hyperref[#1]{\slshape #2}]}
   \allowbreak
 }
 
 \newcommand\specanchor[1]{\phantomsection\label{spec:#1}}
+
 \newcommand\hintanchor[1]{\label{hint:#1}}
 
-\newcommand\or@else[2]{\ifx#1\relax#2\else#1\fi}
-\newcommand\hintref[2][\relax]{\crossref{hint:#2}{\or@else{#1}{hint>>}}}
-\newcommand\specref[2][\relax]{\crossref{spec:#2}{\or@else{#1}{<<spec}}}
+\newcommand\use@if[2]{%
+  \ifx#1\relax
+    #2%
+  \else
+    \begingroup
+    \def\-{#2}%
+    #1%
+    \endgroup
+  \fi
+}
 
-\newcommand\specpoint[2][\relax]{\specanchor{#2}\hintref[#1]{#2}}
-\newcommand\hintpoint[2][\relax]{\hintanchor{#2}\specref[#1]{#2}}
+\newcommand\hintref[2][\relax]{%
+  \crossref{hint:#2}{\use@if{#1}{hint}{>>}}%
+}
 
-\newcommand\functionhint[2]{%
-  \hintpoint[{<<} \functionref{#2}{} spec]{#1}%
+\newcommand\specref[2][\relax]{%
+  \crossref{spec:#2}{{<<}\use@if{#1}{spec}}%
+}
+
+\newcommand\specpoint[2][\relax]{%
+  \specanchor{#2}\hintref[#1]{#2}%
+}
+
+\newcommand\hintpoint[2][\relax]{%
+  \hintanchor{#2}\specref[#1]{#2}%
+}
+
+\newcommand\functionhint[3][\relax]{%
+  \hintpoint[\use@if{#1}{\functionref{#3}{}} \-]{#2}%
+}
+
+\newcommand\functionspec[3][\relax]{%
+  \specpoint[\use@if{#1}{\functionref{#3}{}} \-]{#2}%
 }
 
 \CaretCode
