@@ -159,17 +159,23 @@
     aboveskip=2pt plus 0pt,
     belowskip=2pt plus 0pt,
     linewidth=0.95\linewidth,
+    xleftmargin=0em,
     #1
   }%
   \global\setbox\CodeHeading@savebox\vbox\bgroup
 }
 {%
   \egroup
-  \vspace{.5ex plus 0.1ex}
+  \pagebreak[1]
+  \vspace{.5ex plus 1ex}
   \begin{trivlist}
-    \item\framebox[\linewidth]{\usebox{\CodeHeading@savebox}}
-  \end{trivlist}
-  \vspace{.25ex plus 0.05ex}
+    \item
+      \framebox[\linewidth]{\usebox{\CodeHeading@savebox}}%
+      \nopagebreak[4]%
+  \end{trivlist}%
+  \nopagebreak[4]%
+  \vspace{.25ex plus .01ex minus .1ex}%
+  \nopagebreak[4]%
 }
 
 \lstnewenvironment{Make}[1][]
