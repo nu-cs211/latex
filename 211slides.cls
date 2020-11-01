@@ -528,23 +528,57 @@
   \uncover#2{\textcolor{#1}{$\blacktriangleright$}}%
 }
 
-\newcommand\CSetupFrame[1][\relax]{
+\def\@long@link@fmt#1{\mbox{\footnotesize#1}}
+
+\def\CodeSetup@link@long{\url{\WEBROOT/\jobname.zip}}
+
+\def\CodeSetup@link{\@long@link@fmt{\CodeSetup@link@long}}
+
+\newcommand\CodeSetupFrame@web{
+  \begin{center}
+    The code in this video is available on the web at
+    \par\medskip
+    \CodeSetup@link
+  \end{center}
+}
+
+\newcommand\CodeSetupFrame@shell{
+  The code in this course is available in your Unix shell account.
+  You can get your own copy like this:
+  \par
+  \begingroup
+  \ttfamily
+  \begin{tabular}{l}
+    \SH**{cd cs211} \\
+    \SH**{tar -xvkf \~{}cs211/lec/\jobname.tgz} \\
+    \vdots \\
+    \SH**{cd \jobname} \\
+  \end{tabular}
+  \endgroup
+}
+
+\newcommand\CodeSetupFrame[1][\relax]{
   \begin{frame}{Initial code setup}
-    The code in this course is available in your Unix shell account.
-    You can get your own copy like this:
-    \par
-    \begingroup
-    \ttfamily
-    \begin{tabular}{l}
-      \SH**{cd cs211} \\
-      \SH**{tar -xvkf \~{}cs211/lec/\jobname.tgz} \\
-      \vdots \\
-      \SH**{cd \jobname} \\
-    \end{tabular}
-    \endgroup
+    \if@cxx
+      \CodeSetupFrame@web
+    \else
+      \CodeSetupFrame@shell
+    \fi
     #1
   \end{frame}
 }
+
+\newcommand\CodeSetupFrameUrl[2][\relax]{
+  \def\CodeSetup@link{
+    \url{#2}
+    \par
+    \@long@link@fmt{(\CodeSetup@link@long)}
+  }
+  \CodeSetupFrame[#1]
+}
+
+% Deprecated
+\let\CSetupFrame\CodeSetupFrame
 
 \AtBeginSection[]{\SectionFrame}
 \AtBeginSubsection[]{\SubsectionFrame}
