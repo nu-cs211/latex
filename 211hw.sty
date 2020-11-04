@@ -7,6 +7,7 @@
 \RequirePackage{211common}
 \RequirePackage{tikz}
 \RequirePackage{booktabs}
+\RequirePackage[normalem]{ulem}
 
 \usetikzlibrary{calc}
 
@@ -269,5 +270,13 @@
 \newcommand\functionspec[3][\relax]{%
   \specpoint[\use@if{#1}{\functionref{#3}{}} \-]{#2}%
 }
+
+\newcommand\defref@star[3]{\href{#1}{#3}}
+\newcommand\defref@no@star[2]{\dashuline{\href{#1}{#2}}}
+\newcommand\defref[2]{%
+  \expandafter\newcommand\csname ref#1\endcsname{%
+    \@ifnextchar*
+    {\defref@star{#2}}
+    {\defref@no@star{#2}}}}
 
 \CaretCode
