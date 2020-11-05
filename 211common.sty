@@ -38,26 +38,38 @@
 \newcommand\cmdline[1]{\prompt{\normalfont\ttfamily~#1}}
 \newcommand\keycombo[1]{\textsf{#1}}
 
-\newcommand\codestyleBasic       {\ttfamily\color{black}}
-\newcommand\codestyleComment     {\rmfamily\color{gray}\slshape}
+\newif\ifcolorcodestyle\colorcodestyletrue
+\newcommand\@codestyle@color[1]{%
+  \ifcolorcodestyle\color{#1}\fi
+}
 
-\newcommand\codestyle@color[1]   {\ttfamily\color{#1!black}}
+\newcommand\defcodestyle[2]{%
+  \@ifnextchar[
+    {\defcodestyle@helper{#1}{#2}}
+    {\defcodestyle@helper{#1}{#2}[\relax]}}
 
-\newcommand\codestyleDirective   {\codestyle@color{magenta!80}}
-\newcommand\codestyleLiteral     {\codestyle@color{violet!90}}
-\newcommand\codestyleKeyword     {\codestyle@color{green!30}\bfseries}
+\def\defcodestyle@helper#1#2[#3]{%
+  \expandafter\def\csname codestyle#1\endcsname
+    {\ttfamily\protect\@codestyle@color{#2!black}#3}}
 
-\newcommand\codestyleStdMacro    {\codestyle@color{orange!40}\bfseries}
-\newcommand\codestyleLibMacro    {\codestyle@color{orange!40}\bfseries}
-\newcommand\codestyleCourseMacro {\codestyle@color{orange!40}\bfseries}
+\defcodestyle{Basic}            {black!50}
+\defcodestyle{Comment}          {gray!100}[\rmfamily\slshape]
 
-\newcommand\codestyleStdType     {\codestyle@color{cyan!60}}
-\newcommand\codestyleLibType     {\codestyle@color{cyan!60}}
-\newcommand\codestyleCourseType  {\codestyle@color{cyan!60}}
+\defcodestyle{Directive}        {magenta!80}
+\defcodestyle{Literal}          {violet!90}
+\defcodestyle{Keyword}          {green!30}[\bfseries]
 
-\newcommand\codestyleStdObject   {\codestyle@color{blue!60}}
-\newcommand\codestyleLibObject   {\codestyle@color{blue!60}}
-\newcommand\codestyleCourseObject{\codestyle@color{blue!60}}
+\defcodestyle{StdMacro}         {orange!40}[\bfseries]
+\defcodestyle{LibMacro}         {orange!40}[\bfseries]
+\defcodestyle{CourseMacro}      {orange!40}[\bfseries]
+
+\defcodestyle{StdType}          {cyan!60}
+\defcodestyle{LibType}          {cyan!60}
+\defcodestyle{CourseType}       {cyan!60}
+
+\defcodestyle{StdObject}        {blue!60}
+\defcodestyle{LibObject}        {blue!60}
+\defcodestyle{CourseObject}     {blue!60}
 
 \colorlet{metavar@color}{DarkCyan}
 \newcommand\metavar[1]{%
