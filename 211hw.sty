@@ -274,7 +274,7 @@
 \newcommand\defref@star[3]{\href{#1}{#3}}
 \newcommand\defref@no@star[2]{\dashuline{\href{#1}{#2}}}
 \newcommand\defref[2]{%
-  \expandafter\newcommand\csname ref#1\endcsname{%
+  \newcommand#1{%
     \@ifnextchar*
     {\defref@star{#2}}
     {\defref@no@star{#2}}}}
