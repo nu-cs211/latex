@@ -9,8 +9,8 @@
 \RequirePackage{url}
 \RequirePackage{underscore}
 \RequirePackage{amsmath}
-\RequirePackage{211lang}
 \RequirePackage{hyperref}
+\RequirePackage{newunicodechar}
 
 \urlstyle{sf}
 
@@ -103,6 +103,12 @@
   keywordstyle=[9]\codestyleCourseType,
   keywordstyle=[10]\codestyleCourseObject,
 }
+
+\newcommand{\identifierText}[1]{{\codestyleBasic #1}}
+
+\protected\def\identifierAtText #1›{\identifierText{#1}}
+
+\newunicodechar{‹}{\identifierAtText}
 
 \newcommand\inputText[1]{%
   \textbf{\textcolor{WildcatPurple!90!white}{#1}}}
