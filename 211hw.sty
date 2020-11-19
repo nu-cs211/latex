@@ -271,12 +271,54 @@
   \specpoint[\use@if{#1}{\functionref{#3}{}} \-]{#2}%
 }
 
-\newcommand\defref@star[3]{\href{#1}{#3}}
-\newcommand\defref@no@star[2]{\dashuline{\href{#1}{#2}}}
+\newcommand\defref@normal@style{\dashuline}
+\newcommand\defref@star@style{\relax}
+
 \newcommand\defref[2]{%
   \newcommand#1{%
+    \def\defref@current@target{#2}%
     \@ifnextchar*
-    {\defref@star{#2}}
-    {\defref@no@star{#2}}}}
+      \defref@star
+      \defref@no@star}}
+
+\def\defref@star*{%
+  \let\defref@current@style\defref@star@style
+  \defref@dispatch
+}
+
+\def\defref@no@star{%
+  \let\defref@current@style\defref@normal@style
+  \defref@dispatch
+}
+
+\def\defref@dispatch{%
+  \@ifnextchar<
+    \defref@eat@point
+    \defref@normal}
+
+{
+  \catcode`\_=\active\relax
+  \gdef\active@underscore{_}
+
+  \catcode`\_=12\relax
+  \gdef\normal@underscore{_}
+}
+
+\def\defref@eat@point<{%
+  \bgroup
+  \catcode`\_=\active
+  \relax
+  \expandafter\def\active@underscore{\normal@underscore}%
+  \defref@point
+}
+
+\def\defref@point#1>{%
+  \defref@normal{\identifierText{#1}}%
+  \egroup
+  \relax
+}
+
+\def\defref@normal#1{%
+  \defref@current@style{\href{\defref@current@target}{#1}}}
 
 \CaretCode
