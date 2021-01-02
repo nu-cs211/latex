@@ -1,0 +1,44 @@
+\ProvidesPackage{solarpandoc}[2016/6/29 Solarized Pandoc LaTeX]
+
+\RequirePackage{fancyvrb}
+
+\newenvironment{Shaded}{\small}{}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+
+% Normal:
+\newcommand{\NormalTok}[1]{{#1}}
+
+% Gray (comments):
+\newcommand{\CommentTok}[1]{\textcolor{solarizedRebase01}{\slshape{{#1}}}}
+
+% Gray (parens):
+\newcommand{\RegionMarkerTok}[1]{\textcolor{solarizedRebase01}{#1}}
+
+% Green (keywords):
+\newcommand{\KeywordTok}[1]{\textcolor{solarizedGreen}{{#1}}}
+\newcommand{\ControlFlowTok}[1]{\textcolor{solarizedGreen}{{#1}}}
+\newcommand{\ExtensionTok}[1]{\KeywordTok{#1}}
+\newcommand{\OperatorTok}[1]{\KeywordTok{#1}}
+
+% Cyan (literals):
+\newcommand{\LiteralTok}[1]{\textcolor{solarizedCyan}{{#1}}}
+\let\DataTypeTok=\LiteralTok
+\let\DecValTok=\LiteralTok
+\let\BaseNTok=\LiteralTok
+\let\FloatTok=\LiteralTok
+\let\CharTok=\LiteralTok
+\let\StringTok=\LiteralTok
+
+% Blue (#lang):
+\newcommand{\OtherTok}[1]{\textcolor{solarizedBlue}{{#1}}}
+\newcommand{\PreprocessorTok}[1]{\textcolor{solarizedViolet}{{\slshape#1}}}
+
+% Others:
+\newcommand{\AlertTok}[1]{\textcolor{solarizedRed}{\textbf{{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor{solarizedYellow}{{#1}}}
+\newcommand{\BuiltInTok}[1]{{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor{solarizedRed}{\textbf{{#1}}}}
+\newcommand{\FunctionTok}[1]{\textcolor{solarizedBlue}{{#1}}}
+\newcommand{\ImportTok}[1]{\textcolor{solarizedViolet}{{\slshape#1}}}
+\newcommand{\SpecialCharTok}[1]{\textcolor{solarizedCyan}{{#1}}}
+\newcommand{\VariableTok}[1]{{#1}}

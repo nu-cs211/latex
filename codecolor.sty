@@ -1,0 +1,185 @@
+\ProvidesPackage{codecolor}[2015/1/11 manual syntax highlighting]
+
+\RequirePackage{etextools}
+
+% accumulates commands to run in each code environment
+\newcommand\@codecolor@code@defns{}
+\newcommand\@codecolor@code@catcodes{}
+\newcommand\@codecolor@token@catcodes{}
+
+% Punctuation formatting
+\def\codecolor@punctcolor#1{\ensuremath{#1}}
+\def\setPunctuationColor#1{%
+  \def\codecolor@punctcolor##1{\textcolor{#1}{\ensuremath{##1}}}%
+}
+
+\def\codecolor@codestyle{}
+\def\setCodeStyle#1{%
+  \def\codecolor@codestyle{#1}%
+}
+
+\def\codecolor@codecolor{}
+\def\setCodeColor#1{%
+  \def\codecolor@codecolor{\color{#1}}%
+}
+
+\newcommand\codecolor@register@punct[1]{%
+  \g@addto@macro\@codecolor@code@catcodes{\@makeactive#1}%
+  \g@addto@macro\@codecolor@token@catcodes{\@makeother#1}%
+}
+
+\newcommand\codecolor@def@punct[2]{%
+  \codecolor@register@punct#1%
+  \g@addto@macro\@codecolor@code@defns{\expandafter\newcommand\scantokens{#1}{#2}}%
+}
+
+\newcommand\defPunctuation[2][]{%
+  \if\relax\detokenize{#1}\relax
+    \codecolor@def@punct#2{\codecolor@punctcolor{#2}}%
+  \else
+    \codecolor@def@punct#2{\codecolor@punctcolor{#1}}%
+  \fi
+}
+
+\newcommand\codecolor@def@punct@special[2]{%
+  \codecolor@register@punct#2%
+  \csdef{codecolor@#1}{\codecolor@punctcolor{#2}}%
+}
+
+\codecolor@def@punct@special{lbrace}\{
+\codecolor@def@punct@special{rbrace}\}
+
+\newcommand\setcodecolorindent[1]{%
+  \def\codecolor@do@indent{#1}%
+}
+\setcodecolorindent\qquad
+\def\codecolor@indent{\codecolor@do@indent\ignorespaces\=}
+\let\codecolorindent\codecolor@indent
+
+\def\codecolor@lor{\codecolor@punctcolor{\mbox{|\kern0.08em|}}}
+
+% Catcodes for everywhere
+\newcommand\codecolor@common@catcodes{%
+  \@makeescape|
+  \@makebgroup‹
+  \@makeegroup›
+  \@makeother\\
+  \@makeother\_
+}
+
+% Catcodes for whitespace in block mode
+\newcommand\codecolor@whitespace@catcodes{%
+  \@makeactive\^^M%
+  \@makeactive\^^I%
+}
+
+% Catcodes inside tokens
+\newcommand\codecolor@token@setup{%
+  \codecolor@common@catcodes
+  \@codecolor@token@catcodes
+  \let\codecolor@punctcolor\relax
+}
+
+% Catcodes for code outside tokens
+\newcommand\codecolor@code@catcodes{%
+  \codecolor@common@catcodes
+  \@codecolor@code@catcodes
+}
+
+\begingroup
+  \codecolor@whitespace@catcodes%
+  \gdef\codecolor@comment#1^^M{\C{\texttt{//}~#1}\\}%
+  \gdef\codecolor@whitespace@setup{%
+    \codecolor@whitespace@catcodes%
+    \def^^M{\@ifnextchar^^M{\\[8pt]\@gobble}\\}%
+    \let^^I\codecolor@indent%
+    \let\Com\codecolor@comment%
+  }%
+\endgroup
+
+\begingroup
+  \codecolor@code@catcodes
+  |gdef|codecolor@inline@setup‹%
+    |codecolor@code@catcodes
+    |@codecolor@code@defns
+    |let{|codecolor@lbrace
+    |let}|codecolor@rbrace
+    |let|||codecolor@lor
+    |codecolor@codestyle
+    |codecolor@codecolor
+  ›
+
+  |gdef|codecolor@block@setup‹%
+    |codecolor@inline@setup%
+    |codecolor@whitespace@setup%
+  ›
+|endgroup
+
+\newcommand\defCodeColor[4][]{%
+  \colorlet{code#3}{#4}%
+  \csdef{text#3}{\codecolor@text@args{#1}{#3}}
+  \csdef{text#2}{%
+    \@ifnextchar*
+      {\codecolor@text@args{#1}{#3}}%
+      {\bgroup\codecolor@token@setup\codecolor@text@kont{#1}{#3}}%
+  }%
+  \g@addto@macro\@codecolor@code@defns{\codecolor@alias{#2}{text#2}}%
+}
+
+\newcommand\codecolor@text@args[4]{%
+  #1{\textcolor{code#2}{#4}}%
+}
+\newcommand\codecolor@text@kont[2]{%
+  \@ifnextchar:
+    {\codecolor@text@open{\ }{#1}{#2}}%
+    {\@ifnextchar.
+      {\codecolor@text@open{}{#1}{#2}}%
+      {\codecolor@text@bounded{#1}{#2}}}%
+}
+\def\codecolor@text@open#1#2#3#4#5 {%
+  \codecolor@text@bounded{#2}{#3}{#5}#1%
+}
+\newcommand\codecolor@text@bounded[3]{%
+  \color{code#2}#1{#3}\egroup
+}
+
+\newcommand\codecolor@alias[2]{%
+  \expandafter\let
+    \csname#1\expandafter\endcsname
+    \csname#2\endcsname
+}
+
+\newenvironment{code@tabbing}
+  {\begin{tabbing}\quad\=\+}
+  {\end{tabbing}}
+
+\newenvironment{code}
+  {%
+    \bgroup
+    \codecolor@block@setup
+    \begin{code@tabbing}%
+  }
+  {%
+    \end{code@tabbing}
+    \egroup
+  }
+
+\newcommand\textcode{\bgroup\codecolor@inline@setup\textcode@cont}
+\newcommand\textcode@cont[1]{#1\egroup}
+
+\@makeactive«\relax
+\newcommand«{%
+  \bgroup\codecolor@inline@setup
+  \@ifnextchar«
+    {\codecolor@block@setup\codecolor@bq@long«}
+    {\codecolor@bq@short}%
+}
+
+\def\codecolor@bq@short#1»{#1\egroup}
+
+{
+  \@makeactive\^^M
+  \long\gdef\codecolor@bq@long««^^M#1^^M»»{%
+    \begin{code@tabbing}#1\end{code@tabbing}\egroup%
+  }
+}

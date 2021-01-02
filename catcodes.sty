@@ -1,0 +1,27 @@
+% Names for catcodes
+\ProvidesPackage{catcodes}[2015/1/11 names for catcodes]
+
+\RequirePackage{etextools}
+
+\def\c@codes@def#1 #2 {%
+  \csdef{catcode@#1}{#2}%
+  \csdef{@@make#1}##1{\catcode##1=#2\relax\ignorespaces}%
+  \csdef{@make#1}##1{\catcode`##1=#2\relax\ignorespaces}%
+}
+
+\c@codes@def escape   0
+\c@codes@def bgroup   1
+\c@codes@def egroup   2
+\c@codes@def math     3
+\c@codes@def tab      4
+\c@codes@def eol      5
+\c@codes@def param    6
+\c@codes@def sup      7
+\c@codes@def sub      8
+\c@codes@def ignored  9
+\c@codes@def space   10
+\c@codes@def letter  11
+\c@codes@def other   12
+\c@codes@def active  13
+\c@codes@def comment 14
+\c@codes@def invalid 15

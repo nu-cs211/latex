@@ -1,0 +1,59 @@
+\ProvidesPackage{solarslides}[2015/1/11 slides using solarized]
+
+\RequirePackage{catcodes}
+\RequirePackage{codecolor}
+
+\newcommand\ti[1]{\par\leavevmode{\huge#1}\par\bigskip}
+\newcommand\hd[1]{\par\leavevmode{\large#1}\par\smallskip}
+
+
+%% Beamer setup
+\usecolortheme{solarized}
+\setbeamertemplate{frametitle}
+{%
+  \medskip
+  \insertframetitle\par
+  \smallskip
+}
+\setbeamertemplate{itemize item}{$\bullet$}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[text line]{%
+  \hfill\strut{%
+    \scriptsize\sf\color{black!60}%
+      \quad\insertframenumber
+  }%
+  \hfill
+}
+\setlength{\parskip}{.5em}
+
+\newcommand<>\subalert{\textcolor#1{solarizedBlue}}
+\newcommand<>\subsubalert{\textcolor#1{solarizedMagenta}}
+\newcommand<>\subsubsubalert{\textcolor#1{solarizedGreen}}
+
+\defCodeColor                     {F} {Function}{solarizedBlue}
+\defCodeColor                     {K} {Keyword} {solarizedYellow}
+\defCodeColor                     {P} {Pragma}  {solarizedViolet}
+\defCodeColor [\ttfamily]         {L} {Literal} {solarizedGreen}
+\defCodeColor                     {T} {Type}    {solarizedCyan}
+\defCodeColor [\rmfamily\slshape] {C} {Comment} {solarizedRebase01}
+\defCodeColor [\slshape]          {M} {Macro}   {solarizedOrange}
+\defCodeColor                     {D} {Data}    {solarizedBlue}
+\defCodeColor                     {Q} {Qual}    {solarizedRed}
+
+\setCodeColor                     {solarizedBase03}
+\setPunctuationColor              {solarizedBase03}
+
+\defPunctuation =
+\defPunctuation -
+\defPunctuation +
+\defPunctuation *
+\defPunctuation /
+\defPunctuation <
+\defPunctuation >
+\defPunctuation (
+\defPunctuation )
+\defPunctuation{[}
+\defPunctuation ]
+
+\defPunctuation[\&] &
+
