@@ -43,7 +43,7 @@
 
   \pagestyle{headings}
 
-  \let\aside\footnote
+  \let\aside@helper\footnote
   \newcommand\liningnumerals[1]{{#1}}
 \else
   \RequirePackage{lmodern}
@@ -55,9 +55,18 @@
   ]{cfr-lm}
   \let\LiningNumerals\textl
 
-  \let\aside\marginpar
+  \let\aside@helper\marginpar
   \setlength\CmdLineIndent{\parindent}
 \fi
+
+\newcommand\asideparindent{0.25in}
+\newcommand\aside[1]{%
+  \aside@helper{%
+    \setlength\parindent{\asideparindent}\noindent\ignorespaces
+    #1%
+  }%
+  \ignorespaces
+}
 
 \newif\if@partner@allowed
 
