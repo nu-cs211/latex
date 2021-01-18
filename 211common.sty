@@ -30,12 +30,14 @@
   colorlinks = true,
 }
 
-\newcommand\progname[1]{\emph{#1}}
-\newcommand\hostname[1]{\emph{#1}}
-\newcommand\filename[1]{\textsf{#1}}
-\newcommand\varname[1]{\textsf{#1}}
-\newcommand\functionname[1]{\textsl{#1}}
-\newcommand\functionref[2]{\functionname{#1}(#2)}
+
+\newcommand\LiningNumerals[1]{{#1}}
+\newcommand\progname[1]{\emph{\LiningNumerals{#1}}}
+\newcommand\hostname[1]{\emph{\LiningNumerals{#1}}}
+\newcommand\filename[1]{\textsf{\LiningNumerals{#1}}}
+\newcommand\varname[1]{\textsf{\LiningNumerals{#1}}}
+\newcommand\functionname[1]{\textsl{\LiningNumerals{#1}}}
+\newcommand\functionref[2]{\functionname{#1}(\LiningNumerals{#2})}
 \newcommand\promptchar{\%}
 \newcommand\prompt{{\normalfont\texttt{\color{gray}\promptchar}}}
 \newcommand\cmdline[1]{\prompt{\normalfont\ttfamily~#1}}

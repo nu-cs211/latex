@@ -44,7 +44,17 @@
   \pagestyle{headings}
 
   \let\aside\footnote
+  \newcommand\liningnumerals[1]{{#1}}
 \else
+  \RequirePackage{lmodern}
+  \RequirePackage[%
+    rm={oldstyle=true,proportional=true},%
+    sf={oldstyle=false,proportional=true},%
+    tt={oldstyle=false,proportional=false,variable=false},%
+    qt=false%
+  ]{cfr-lm}
+  \let\LiningNumerals\textl
+
   \let\aside\marginpar
   \setlength\CmdLineIndent{\parindent}
 \fi
