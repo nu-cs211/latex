@@ -10,14 +10,23 @@
 \newcommand\TERM{Winter 2021}
 \newcommand\COURSENO{CS 211}
 
-\newcommand\SHELLROOT{\plaintilde cs211}
 \newcommand\WEBROOT{https://nu-cs211.github.io/cs211-files}
+\newcommand\SHELLROOT{\plaintilde cs211}
+
 \newcommand\CStyleUrl{\WEBROOT/style.html}
 \newcommand\CxxSetupUrl{\WEBROOT/setup.html}
-\newcommand\ThisLabZip{\WEBROOT/\ThisLabBase.zip}
+\newcommand\SyllabusUrl{\WEBROOT/syllabus.pdf}
 
+\newcommand\LabBaseUrl{\WEBROOT/lab}
 \newcommand\LabBasePath{\SHELLROOT/lab}
-\newcommand\ThisLabTgz{\LabBasePath/\ThisLabBase.tgz}
+
+\newcommand\LabPdfUrl[1]{\LabBaseUrl/lab\@pad@two{#1}.pdf}
+\newcommand\LabZipUrl[1]{\LabBaseUrl/lab\@pad@two{#1}.zip}
+\newcommand\LabTgzPath[1]{\LabBasePath/lab\@pad@two{#1}.tgz}
+
+\newcommand\ThisLabZip{\LabZipUrl{\ThisLabNumber}}
+\newcommand\ThisLabTgz{\LabTgzPath{\ThisLabNumber}}
+\newcommand\ThisLabBase{lab\ThisLabNumber}
 
 \newcommand\LabHostnames@Url
   {it.eecs.northwestern.edu/info/2015/11/03/info-labs.html\#workstations}
@@ -26,8 +35,8 @@
 \newcommand\LabHostnamesLink
   {\href{\LabHostnames@ShortUrl}{{\UrlFont{\LabHostnames@Url}}}}
 
-\def\ThisLabBase{\errmessage{
-  You need to call \noexpand\LabInfo to define \noexpand\ThisLabBase.
+\def\ThisLabNumber{\errmessage{
+  You need to call \noexpand\LabInfo to define \noexpand\ThisLabNumber.
 }}
 
 \newcommand\@pad@two[1]{\@pad@two@check#1\\}
@@ -37,7 +46,7 @@
 }
 
 \newcommand\LabInfo[2]{
-  \def\ThisLabBase{lab\@pad@two{#1}}
+  \def\ThisLabNumber{#1}
   \title{\COURSENO\ Lab #1}
   \author{#2}
   \date{\TERM}
