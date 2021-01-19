@@ -111,6 +111,10 @@
   }
 }
 
+\newcommand\HomeworkTableOfContents{
+  \aside{\small\tableofcontents\vspace{2em}}
+}
+
 
 \if@cxx
 
@@ -141,8 +145,7 @@
       isn't found, that probably means you missed the step in Lab 1
       where you were supposed to run
       \texttt{\plaintilde cs211/setup211}.)
-    }%
-    \aside{\vspace{2em}\small\tableofcontents}%
+    }
     to the server of your choice and \progname{cd} to the
     directory where you keep your \COURSENO\ work. Then
     unarchive the starter code, and change into the project directory:
@@ -162,6 +165,13 @@
 
   Homework submission and grading will use the GSC grading server. You
   must include any files that you create or change. #2
+
+  Per the \href{https://nu-cs211.github.io/cs211-files/syllabus.pdf}{syllabus},
+  if you engaged in arms-length collaboration on this assignment, you must also
+  submit a file named \filename{COLLABORATION.txt} that lists your arms-length
+  collaborators. See the
+  \href{https://nu-cs211.github.io/cs211-files/syllabus.pdf}{syllabus} for
+  specific details.
 
   \if@cxx
 
@@ -228,6 +238,7 @@
 
 \newcommand\MakeTitle[1][\relax]{
   \maketitle
+  \HomeworkTableOfContents
   \if@cxx\begin{center}\fi
   \begin{tabular}[t]{llr}
     \DueDateRows
