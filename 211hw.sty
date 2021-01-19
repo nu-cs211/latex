@@ -111,10 +111,6 @@
   }
 }
 
-\newcommand\HomeworkTableOfContents{
-  \aside{\small\tableofcontents\vspace{2em}}
-}
-
 
 \if@cxx
 
@@ -145,7 +141,8 @@
       isn't found, that probably means you missed the step in Lab 1
       where you were supposed to run
       \texttt{\plaintilde cs211/setup211}.)
-    }
+    }%
+    \aside{\vspace{2em}\small\tableofcontents}%
     to the server of your choice and \progname{cd} to the
     directory where you keep your \COURSENO\ work. Then
     unarchive the starter code, and change into the project directory:
@@ -238,7 +235,6 @@
 
 \newcommand\MakeTitle[1][\relax]{
   \maketitle
-  \HomeworkTableOfContents
   \if@cxx\begin{center}\fi
   \begin{tabular}[t]{llr}
     \DueDateRows
