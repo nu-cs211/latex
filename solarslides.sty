@@ -18,13 +18,16 @@
 \setbeamertemplate{itemize item}{$\bullet$}
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{footline}[text line]{%
-  \vbox to \baselineskip{%
+  \vbox to 1.25\baselineskip{%
     \hbox to \textwidth{%
+      \sf\scriptsize
       \strut
       \hfill
-      \scriptsize\sf
-      \textcolor{black!80}{\insertframenumber}
-      \textcolor{black!60}{(\thepage)}%
+      \color{solarizedRebase0}\insertframenumber
+      \rlap{~%
+        \color{solarizedBlue!40!solarizedRebase01}%
+        (\textcolor{solarizedRebase01}{\thepage})%
+      }%
       \hfill
     }%
   }%

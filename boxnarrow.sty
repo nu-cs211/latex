@@ -1,11 +1,19 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{boxnarrow}
-    [2016/06/24 0.1]
+    [2021/01/27 0.2]
 
 \RequirePackage{tikz}
 \usetikzlibrary{arrows.meta, calc, positioning, shapes}
 
+\newif\if@no@beamer
+\ifcsname beamer@author\endcsname
+  \@no@beamerfalse
+\else
+  \@no@beamertrue
+\fi
+
 \newcommand\VectorLabelDistance{4pt}
+\newcommand\BoxnarrowNodeAnchor{base west}
 
 \tikzset{
   every vector/.style={},
@@ -17,11 +25,12 @@
   every pointer arrow/.style={},
   every null pointer/.style={},
   every place node/.style={},
+  every var/.style={every object},
 }
 
 \tikzset{
   common base/.style={
-    anchor=base west,
+    anchor=\BoxnarrowNodeAnchor,
     draw,
     thick,
     outer sep=2pt,
@@ -59,9 +68,9 @@
     circle,
     anchor=south,
     text width=1ex,
+    inner sep=0pt,
+    outer sep=0pt,
     every pointer anchor,
-    inner sep=0,
-    outer sep=0,
   },
   pointer arrow base/.style={
     draw,
@@ -119,29 +128,59 @@
 
 \def\Vector@eatStar*{\Vector@labeled}
 
-\newcommand<>\Vector@unlabeled[2][]{%
-  \begin{tikzpicture}[remember picture]
-    \def\Sequence{#2}
-    \node#3[vector base, #1] {%
-      \foreach \Element in \Sequence {%
-        \VectorElement{\Element}%
-      }%
-    };
-  \end{tikzpicture}%
-}
-
-\newcommand<>\Vector@labeled[2][]{%
-  \begin{tikzpicture}[remember picture]
-    \def\Sequence{#2}
-    \node#3[vector base, #1] {%
-      \foreach [count=\xi] \Element in \Sequence {%
-        \count0=\xi
-        \advance\count0 by -1%
-        \VectorElement<\the\count0>{\Element}%
-      }%
-    };
-  \end{tikzpicture}%
-}
+\if@no@beamer
+  %
+  \newcommand\Vector@unlabeled[2][]{%
+    \begin{tikzpicture}[remember picture]
+      \def\Sequence{#2}
+      \node[vector base, #1] {%
+        \foreach \Element in \Sequence {%
+          \VectorElement{\Element}%
+        }%
+      };
+    \end{tikzpicture}%
+  }
+  %
+  \newcommand\Vector@labeled[2][]{%
+    \begin{tikzpicture}[remember picture]
+      \def\Sequence{#2}
+      \node[vector base, #1] {%
+        \foreach [count=\xi] \Element in \Sequence {%
+          \count0=\xi
+          \advance\count0 by -1%
+          \VectorElement<\the\count0>{\Element}%
+        }%
+      };
+    \end{tikzpicture}%
+  }
+  %
+\else % @no@beamer
+  %
+  \newcommand<>\Vector@unlabeled[2][]{%
+    \begin{tikzpicture}[remember picture]
+      \def\Sequence{#2}
+      \node#3[vector base, #1] {%
+        \foreach \Element in \Sequence {%
+          \VectorElement{\Element}%
+        }%
+      };
+    \end{tikzpicture}%
+  }
+  %
+  \newcommand<>\Vector@labeled[2][]{%
+    \begin{tikzpicture}[remember picture]
+      \def\Sequence{#2}
+      \node#3[vector base, #1] {%
+        \foreach [count=\xi] \Element in \Sequence {%
+          \count0=\xi
+          \advance\count0 by -1%
+          \VectorElement<\the\count0>{\Element}%
+        }%
+      };
+    \end{tikzpicture}%
+  }
+  %
+\fi % @no@beamer
 
 \newcommand\StructLabelOuterFont{\scriptsize}
 \newcommand\StructLabelInnerFont{\ttfamily}
@@ -151,40 +190,73 @@
 \def\Struct@Field#1:#2\\{%
   \Field@Before
   \gdef\Field@Before{\hline}%
-  \strut\ignorespaces#2&{\StructLabelOuterFont({\StructLabelInnerFont\ignorespaces#1})}\\
-}%
+  \strut\ignorespaces#2&{%
+    \StructLabelOuterFont({\StructLabelInnerFont\ignorespaces#1})}\\
+}
 
-
-\newcommand<>\StructNode[2][]{
-  \node#3[struct base, anchor=base west, #1] {%
-    \begin{tabular}{@{\kern\StructGutter}r@{\kern\StructGutter}l@{\kern\StructGutter}}
-      #2%
-    \end{tabular}
+\if@no@beamer
+  \newcommand\StructNode[2][]{
+    \node[struct base, anchor=base west, #1] {%
+      \begin{tabular}{@{\kern\StructGutter}r@{\kern\StructGutter}l@{\kern\StructGutter}}
+        #2%
+      \end{tabular}
+    }
   }
-}
-
-\newcommand<>\Struct[2][]{%
-  \begingroup
-    \gdef\Field@Before{}
-    \let\Field\Struct@Field
-    \tikz[baseline] \StructNode#3[#1]{#2};%
-  \endgroup
-}
-
-\newcommand<>\literalObject[2][]{%
-  \tikz[baseline] \node#3[object base, #1] {\hfill \ignorespaces #2};%
-}
-
-\newcommand\defObject[2]{%
-  \newcommand<>{#1}[2][]{\literalObject##3[#2, ##1] {##2}}%
-}
-
-\newcommand\defObjectFor[3][]{%
-  \newcommand<>{#2}[2][]{%
-    \setbox0\hbox{\tikz[baseline]\node##3[object base, #1, ##1] {#3};}%
-    \literalObject##3[text width=\wd0, #1, ##1] {##2}%
-  }%
-}
+  %
+  \newcommand\Struct[2][]{%
+    \begingroup
+      \gdef\Field@Before{}
+      \let\Field\Struct@Field
+      \tikz[baseline] \StructNode[#1]{#2};%
+    \endgroup
+  }
+  %
+  \newcommand\literalObject[2][]{%
+    \tikz[baseline] \node[object base, #1] {\hfill \ignorespaces #2};%
+  }
+  %
+  \newcommand\defObject[2]{%
+    \newcommand{#1}[2][]{\literalObject[#2, ##1] {##2}}%
+  }
+  %
+  \newcommand\defObjectFor[3][]{%
+    \newcommand{#2}[2][]{%
+      \setbox0\hbox{\tikz[baseline]\node[object base, #1, ##1] {#3};}%
+      \literalObject[text width=\wd0, #1, ##1] {##2}%
+    }%
+  }
+\else % @no@beamer
+  \newcommand<>\StructNode[2][]{
+    \node#3[struct base, anchor=base west, #1] {%
+      \begin{tabular}{@{\kern\StructGutter}r@{\kern\StructGutter}l@{\kern\StructGutter}}
+        #2%
+      \end{tabular}
+    }
+  }
+  %
+  \newcommand<>\Struct[2][]{%
+    \begingroup
+      \gdef\Field@Before{}
+      \let\Field\Struct@Field
+      \tikz[baseline] \StructNode#3[#1]{#2};%
+    \endgroup
+  }
+  %
+  \newcommand<>\literalObject[2][]{%
+    \tikz[baseline] \node#3[object base, #1] {\hfill \ignorespaces #2};%
+  }
+  %
+  \newcommand\defObject[2]{%
+    \newcommand<>{#1}[2][]{\literalObject##3[#2, ##1] {##2}}%
+  }
+  %
+  \newcommand\defObjectFor[3][]{%
+    \newcommand<>{#2}[2][]{%
+      \setbox0\hbox{\tikz[baseline]\node##3[object base, #1, ##1] {#3};}%
+      \literalObject##3[text width=\wd0, #1, ##1] {##2}%
+    }%
+  }
+\fi % @no@beamer
 
 \defObject\Object{}
 \defObjectFor\ObjectC{0x00}
@@ -195,60 +267,134 @@
 \defObjectFor\ObjectP{0x0000000000000000}
 
 \newcommand\VarSep{:\,}
-\newcommand<>\Var[3][]{%
-  \begingroup
-    \only#4{%
-      #2\VarSep\Object[#1]{#3}%
-    }%
-  \endgroup
-}
 
-\newcommand<>\Pointer[2][]{%
-  \begin{tikzpicture}[remember picture]
-    \draw#3 node[pointer anchor base] {}
+\if@no@beamer
+  %
+  \newcommand\Var[3][]{%
+    \begingroup
+      \only{%
+        #2\VarSep\Object[#1]{#3}%
+      }%
+    \endgroup
+  }
+  %
+  \newcommand\Pointer[2][]{%
+    \begin{tikzpicture}[remember picture]
+      \draw node[pointer anchor base] {}
             edge[pointer arrow base, #1]
             (#2);
-  \end{tikzpicture}%
-}
+    \end{tikzpicture}%
+  }
+  %
+  \newcommand\PointerBase[1]{%
+    \begin{tikzpicture}[remember picture]
+      \node[pointer anchor base] (#1) {};
+    \end{tikzpicture}%
+  }
+  %
+  \newcommand\PointerArrow[3][]{%
+    \begin{tikzpicture}[remember picture, overlay]
+      \draw (#2) edge[pointer arrow base, #1] (#3);
+    \end{tikzpicture}%
+  }
+  %
+  \newcommand\PointerHandle[2][]{%
+    \begin{tikzpicture}[remember picture, overlay]
+      \draw node {} edge[pointer arrow base, #1] (#2);
+    \end{tikzpicture}%
+  }
+  %
+  \newcommand\NullPointer[1][]{%
+    \normalfont
+    \begin{tikzpicture}
+      \node[null pointer base, #1] (circ) {};
+      \draw[null pointer base, #1] (circ.south west) -- (circ.north east);
+    \end{tikzpicture}%
+  }
+  %
+  \newcommand\@brack@Place[4][]{%
+    \tikz[remember picture, overlay, #1]
+      \node [every place node]
+          at ($(current page.north west) + (#2, -#3)$)
+          {\ignorespaces #4};%
+    \ignorespaces
+  }
+  %
+  \newcommand\@brack@RPlace[4][]{%
+    \@brack@Place[#1]{#2\paperwidth}{#3\paperheight}{#4}%
+    \ignorespaces
+  }
+  %
+\else % @no@beamer
+  \newcommand<>\Var[3][]{%
+    \begingroup
+      \only#4{%
+        #2\VarSep\Object[#1]{#3}%
+      }%
+    \endgroup
+  }
+  %
+  \newcommand<>\Pointer[2][]{%
+    \begin{tikzpicture}[remember picture]
+      \draw#3 node[pointer anchor base] {}
+              edge[pointer arrow base, #1]
+              (#2);
+    \end{tikzpicture}%
+  }
+  %
+  \newcommand<>\PointerBase[1]{%
+    \begin{tikzpicture}[remember picture]
+      \node#2[pointer anchor base] (#1) {};
+    \end{tikzpicture}%
+  }
+  %
+  \newcommand<>\PointerArrow[3][]{%
+    \begin{tikzpicture}[remember picture, overlay]
+      \draw#4 (#2) edge[pointer arrow base, #1] (#3);
+    \end{tikzpicture}%
+  }
+  %
+  \newcommand<>\PointerHandle[2][]{%
+    \begin{tikzpicture}[remember picture, overlay]
+      \draw#3 node {} edge[pointer arrow base, #1] (#2);
+    \end{tikzpicture}%
+  }
+  %
+  \newcommand<>\NullPointer[1][]{%
+    \normalfont
+    \begin{tikzpicture}
+      \node#2[null pointer base, #1] (circ) {};
+      \draw#2[null pointer base, #1] (circ.south west) -- (circ.north east);
+    \end{tikzpicture}%
+  }
+  %
+  \newcommand<>\@brack@Place[4][]{%
+    \tikz[remember picture, overlay, #1]
+      \node#5 [every place node]
+          at ($(current page.north west) + (#2, -#3)$)
+          {\ignorespaces #4};%
+    \ignorespaces
+  }
+  %
+  \newcommand<>\@brack@RPlace[4][]{%
+    \@brack@Place#5[#1]{#2\paperwidth}{#3\paperheight}{#4}%
+    \ignorespaces
+  }
+\fi % @no@beamer
 
-\newcommand<>\PointerBase[1]{%
-  \begin{tikzpicture}[remember picture]
-    \node#2[pointer anchor base] (#1) {};
-  \end{tikzpicture}%
+\newcommand\Place{%
+  \@ifnextchar (
+    \@paren@Place
+    \@brack@Place
 }
+\def\@paren@Place(#1,#2){\@brack@Place{#1}{#2}}
 
-\newcommand<>\PointerArrow[3][]{%
-  \begin{tikzpicture}[remember picture, overlay]
-    \draw#4 (#2) edge[pointer arrow base, #1] (#3);
-  \end{tikzpicture}%
+\newcommand\RPlace{%
+  \@ifnextchar (
+    \@paren@RPlace
+    \@brack@RPlace
 }
-
-\newcommand<>\PointerHandle[2][]{%
-  \begin{tikzpicture}[remember picture, overlay]
-    \draw#3 node {} edge[pointer arrow base, #1] (#2);
-  \end{tikzpicture}%
-}
-
-\newcommand<>\NullPointer[1][]{%
-  \normalfont
-  \begin{tikzpicture}
-    \node#2[null pointer base, #1] (circ) {};
-    \draw#2[null pointer base, #1] (circ.south west) -- (circ.north east);
-  \end{tikzpicture}%
-}
-
-\newcommand<>\Place[4][]{%
-  \tikz[remember picture, overlay, #1]
-    \node#5 [every place node]
-        at ($(current page.north west) + (#2, -#3)$)
-        {\ignorespaces #4};%
-  \ignorespaces
-}
-
-\newcommand<>\RPlace[4][]{%
-  \Place#5[#1]{#2\paperwidth}{#3\paperheight}{#4}%
-  \ignorespaces
-}
+\def\@paren@RPlace(#1,#2){\@brack@RPlace{#1}{#2}}
 
 \newcommand\At[4][]{%
   \tikz[remember picture, overlay]
@@ -258,11 +404,6 @@
   \ignorespaces
 }
 
-\newcommand\RAt[4][\relax]{%
-  \ifx#1\relax
-    \At{#2\paperwidth}{#3\paperheight}{#4}%
-  \else
-    \At[#1]{#2\paperwidth}{#3\paperheight}{#4}%
-  \fi
+\newcommand\RAt[4][]{%
+  \At[#1]{#2\paperwidth}{#3\paperheight}{#4}%
 }
-
