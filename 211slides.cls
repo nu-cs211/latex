@@ -192,10 +192,10 @@
 
 \newcommand\textUB@common[3]{{%
   \fontspec[Scale=#1]{#2}%
-  \ifsolarizedlight
-    \color{BloodRed}%
-  \else
+  \ifsolarizeddark
     \color{BloodPink}%
+  \else
+    \color{BloodRed}%
   \fi
   #3%
 }}
