@@ -18,11 +18,16 @@
 \setbeamertemplate{itemize item}{$\bullet$}
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{footline}[text line]{%
-  \hfill\strut{%
-    \scriptsize\sf\color{black!60}%
-      \quad\insertframenumber
+  \vbox to \baselineskip{%
+    \hbox to \textwidth{%
+      \strut
+      \hfill
+      \scriptsize\sf
+      \textcolor{black!80}{\insertframenumber}
+      \textcolor{black!60}{(\thepage)}%
+      \hfill
+    }%
   }%
-  \hfill
 }
 \setlength{\parskip}{.5em}
 

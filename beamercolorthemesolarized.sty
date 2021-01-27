@@ -76,11 +76,9 @@
 }{}
 
 \newif\ifsolarizeddark
-\newif\ifsolarizedlight
 
 \newcommand\setSolarizedDark{
   \solarizeddarktrue
-  \solarizedlightfalse
   \colorlet{solarizedRebase03}{solarizedBase03}
   \colorlet{solarizedRebase02}{solarizedBase02}
   \colorlet{solarizedRebase01}{solarizedBase01}
@@ -92,7 +90,6 @@
 }
 
 \newcommand\setSolarizedLight{
-  \solarizedlighttrue
   \solarizeddarkfalse
   \colorlet{solarizedRebase03}{solarizedBase3}
   \colorlet{solarizedRebase02}{solarizedBase2}

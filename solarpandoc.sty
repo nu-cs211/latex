@@ -5,40 +5,71 @@
 \newenvironment{Shaded}{\small}{}
 \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
 
+% Usage:
+%  \DefineToken{TokenName}{SolarizedColorName}
+%  \DefineToken{TokenName}[ExtraStyle]{SolarizedColorName}
+%  \DefineToken{TokenName}*{AnyColorName}
+%  \DefineToken{TokenName}[ExtraStyle]*{AnyColorName}
+\newcommand{\DefineToken}[1]{%
+  \@ifnextchar [
+    {\@Define@Token@LBrack{#1}}
+    {\@Define@Token@LBrack{#1}[]}}
+\def\@Define@Token@LBrack#1[#2]{%
+  \@ifnextchar *
+    {\@Define@Token{#1}{#2}{}}
+    {\@Define@Token{#1}{#2}{solarized}*}}
+\def\@Define@Token#1#2#3*#4{%
+  \expandafter\newcommand\csname #1Tok\endcsname
+    [1]{{\color{#3#4}#2{##1}}}}
+
+\def\LetToken#1 #2 {%
+  \expandafter\@Let@Token\expandafter{\csname #2Tok\endcsname}{#1Tok}}
+\def\@Let@Token#1#2{\expandafter\let\csname #2\endcsname #1}
+
+%%%
+%%% unused: Orange
+%%%
+
 % Normal:
-\newcommand{\NormalTok}[1]{{#1}}
+\DefineToken{Normal}{Rebase0}
+\LetToken Variable Normal
 
-% Gray (comments):
-\newcommand{\CommentTok}[1]{\textcolor{solarizedRebase01}{\slshape{{#1}}}}
+% self:
+\DefineToken{BuiltIn}[\itshape]{Rebase0}
 
-% Gray (parens):
-\newcommand{\RegionMarkerTok}[1]{\textcolor{solarizedRebase01}{#1}}
+% Comments:
+\DefineToken{Comment}[\slshape]{Cyan}
 
-% Green (keywords):
-\newcommand{\KeywordTok}[1]{\textcolor{solarizedGreen}{{#1}}}
-\newcommand{\ControlFlowTok}[1]{\textcolor{solarizedGreen}{{#1}}}
-\newcommand{\ExtensionTok}[1]{\KeywordTok{#1}}
-\newcommand{\OperatorTok}[1]{\KeywordTok{#1}}
+% Delimiters:
+\DefineToken{RegionMarker}{Rebase01}
 
-% Cyan (literals):
-\newcommand{\LiteralTok}[1]{\textcolor{solarizedCyan}{{#1}}}
-\let\DataTypeTok=\LiteralTok
-\let\DecValTok=\LiteralTok
-\let\BaseNTok=\LiteralTok
-\let\FloatTok=\LiteralTok
-\let\CharTok=\LiteralTok
-\let\StringTok=\LiteralTok
+% Keywords:
+\DefineToken{Keyword}{Blue}
+\LetToken ControlFlow Keyword
+\LetToken Extension Keyword
 
-% Blue (#lang):
-\newcommand{\OtherTok}[1]{\textcolor{solarizedBlue}{{#1}}}
-\newcommand{\PreprocessorTok}[1]{\textcolor{solarizedViolet}{{\slshape#1}}}
+% Operators:
+\DefineToken{Operator}{Yellow}
+\LetToken Function Operator
 
-% Others:
-\newcommand{\AlertTok}[1]{\textcolor{solarizedRed}{\textbf{{#1}}}}
-\newcommand{\AttributeTok}[1]{\textcolor{solarizedYellow}{{#1}}}
-\newcommand{\BuiltInTok}[1]{{#1}}
-\newcommand{\ErrorTok}[1]{\textcolor{solarizedRed}{\textbf{{#1}}}}
-\newcommand{\FunctionTok}[1]{\textcolor{solarizedBlue}{{#1}}}
-\newcommand{\ImportTok}[1]{\textcolor{solarizedViolet}{{\slshape#1}}}
-\newcommand{\SpecialCharTok}[1]{\textcolor{solarizedCyan}{{#1}}}
-\newcommand{\VariableTok}[1]{{#1}}
+% Literals:
+\DefineToken{Literal}{Violet}
+\LetToken DataType Literal
+\LetToken DecVal Literal
+\LetToken BaseN Literal
+\LetToken Float Literal
+\LetToken Char Literal
+\LetToken String Literal
+\LetToken SpecialChar Literal
+
+% include/import/cpp:
+\DefineToken{Preprocessor}[\slshape]{Magenta}
+\LetToken Import Preprocessor
+\LetToken Other Preprocessor
+
+% Testing forms:
+\DefineToken{Attribute}{Green}
+
+% Errors:
+\DefineToken{Error}[\bfseries]{Red}
+\LetToken Alert Error
