@@ -130,11 +130,14 @@
 
 \else
 
-  \newcommand\CPrelims[1][\CmdLineIndent]{
+  \newcommand\CPrelims[1][\relax]{
     Login
-    \marginpar{
-    This homework assignment must be completed on Linux by logging into
-    \href{\LabHostnames@ShortUrl}{a Linux workstation}.
+    \marginpar{%
+      \ifx#1\relax \else
+        \vspace*{#1\baselineskip}%
+      \fi
+      This homework assignment must be completed on Linux by logging into
+      \href{\LabHostnames@ShortUrl}{a Linux workstation}.
       Each time you login to work on \COURSENO,
       you should run \progname{211} to ensure your environment is
       setup correctly. (If you get an error saying that \filename{211.h}
@@ -150,7 +153,7 @@
     directory where you keep your \COURSENO\ work. Then
     unarchive the starter code, and change into the project directory:
     \par
-    \begin{CmdLine}[#1]
+    \begin{CmdLine}
       \C cd cs211 \\
       \C tar -kxvf \plaintilde cs211/hw/hw\hw@number@padded.tgz \\
       \ETC
