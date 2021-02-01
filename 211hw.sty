@@ -164,10 +164,10 @@
 
 \fi
 
-\newcommand\CSubmit[2][\CmdLineIndent]{
+\newcommand\CSubmit[1]{
 
   Homework submission and grading will use the GSC grading server. You
-  must include any files that you create or change. #2
+  must include any files that you create or change. #1
 
   Per \href{\SyllabusUrl}{the syllabus},
   if you engaged in arms-length collaboration on this assignment, you must also
@@ -189,7 +189,7 @@
     manual page on the Unix login and lab machines. To view the manual
     page, run:
 
-    \begin{CmdLine}[#1]
+    \begin{CmdLine}
       \C man submit211 \\
       \NoPrompt
     \end{CmdLine}
