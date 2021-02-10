@@ -12,7 +12,7 @@
   \@no@beamertrue
 \fi
 
-\newcommand\VectorLabelDistance{4pt}
+\newcommand\VectorLabelDistance{1pt}
 \newcommand\BoxnarrowNodeAnchor{base west}
 
 \tikzset{
@@ -49,6 +49,11 @@
     common base,
     inner sep=0pt,
     every vector,
+    element width/.style={
+      every vector element/.append style={
+        text width=##1,
+      },
+    },
   },
   vector element base/.style={
     draw,
@@ -95,7 +100,10 @@
 
 \newcommand\VectorElement@numbered[4]{%
   \begin{tikzpicture}
-    \node[vector element base, #3] (element) {\strut #4};
+    \node[
+      vector element base,
+      #3
+    ] (element) {\strut #4};
     \node[
       above=\VectorLabelDistance of element.north west,
       vector label base,
