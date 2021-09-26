@@ -164,9 +164,9 @@
 
 \fi
 
-\newcommand\CSubmit[1]{
+\newcommand\CSubmit[2]{
 
-  Homework submission and grading will use the GSC grading server. You
+  Homework submission and grading will use Gradescope. You
   must include any files that you create or change. #1
 
   Per \href{\SyllabusUrl}{the syllabus}, if you engaged in arms-length
@@ -177,22 +177,37 @@
 
   \if@cxx
 
-    You should upload your files on
-    \href{https://cs211.cs.northwestern.edu/gsc}{the GSC web
-    site}.\aside{It’s also possible to install the command-line GSC client
-    \texttt{\textbf{gsc}(1)} on your local machine.}
+%    You should upload your files on
+%    \href{https://cs211.cs.northwestern.edu/gsc}{the GSC web
+%    site}.\aside{It’s also possible to install the command-line GSC client
+%    \texttt{\textbf{gsc}(1)} on your local machine.}
 
   \else
 
-    Submit using the command-line GSC client \texttt{\textbf{gsc}(1)}.
-    Instructions are available in the \texttt{\textbf{submit211}(7)}
-    manual page on the Unix login and lab machines. To view the manual
-    page, run:
+%    Submit using the command-line GSC client \texttt{\textbf{gsc}(1)}.
+%    Instructions are available in the \texttt{\textbf{submit211}(7)}
+%    manual page on the Unix login and lab machines. To view the manual
+%    page, run:
+%
+%    \begin{CmdLine}
+%      \C man submit211 \\
+%      \NoPrompt
+%    \end{CmdLine}
 
-    \begin{CmdLine}
-      \C man submit211 \\
-      \NoPrompt
-    \end{CmdLine}
+    Submit using the command-line tool \texttt{submit211}. You can run the
+    command with the \texttt{-{}-help} flag to see more details. The tool will
+    ask you to log in with your Gradescope credentials, so make sure you've
+    created an account!
+
+    To submit the necessary files for this homework, you will run something
+    that looks like:
+
+    #2
+
+    Remember that those are relative paths to the files you want to submit. So
+    make sure to change them to make sense for whatever directory you are
+    running the command from. You can also add any additional files you want
+    to upload, like \filename{README.txt}, to the end of the command.
 
   \fi
 
