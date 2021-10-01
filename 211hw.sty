@@ -215,39 +215,50 @@
 
     \subsection{Partners}
 
-    If you work with a partner then you must register\aside{Be careful
-    with partner registration, because once a partner request is
-    accepted, undoing it requires an appeal to the instructor.} your
-    partnership \textbf{before uploading to GSC}. There are two steps to
-    this: one partner must create a \emph{partner request} (referring to
-    their intended partner by NetID), and then the other partner must
-    accept that request for it to take effect.
+%    If you work with a partner then you must register\aside{Be careful
+%    with partner registration, because once a partner request is
+%    accepted, undoing it requires an appeal to the instructor.} your
+%    partnership \textbf{before uploading to GSC}. There are two steps to
+%    this: one partner must create a \emph{partner request} (referring to
+%    their intended partner by NetID), and then the other partner must
+%    accept that request for it to take effect.
+%
+%    \if@cxx
+%
+%      Create partner requests on the GSC website or using the
+%      command-line tool; outstanding partner requests will appear on the
+%      page for the relevant homework as well as your main GSC
+%      submissions page.
+%
+%    \else
+%
+%      Partner requests are created with the \texttt{gsc partner request}
+%      command and accepted using  using the \texttt{gsc partner accept}
+%      command. You can list outstanding partner requests with the
+%      \texttt{gsc status} command and cancel them with the \texttt{gsc
+%      partner cancel} command.\marginpar{It’s also possible to manage
+%      partner requests via the website.} See the
+%      \texttt{\textbf{gsc}(1)} manual page for details.
+%
+%    \fi
+%
+%    Before a partner request can be accepted, the files in the two
+%    submissions must be disjoint. (The system will not choose whose file
+%    to delete if you both have files with the same name.) Once a partner
+%    request is accepted, you and your partner's submissions are joined
+%    together: when one partner uploads files to the GSC server or
+%    performs self evaluation, the results will be visible to both.
 
-    \if@cxx
+  If you work with a partner, then you MUST register your partnership on
+  Gradescope. From the Gradescope course page, click on the assignment, then at
+  the bottom click the button labeled ``Group Members''. A dropdown menu will
+  allow you to select the name of your partner, then click save to send them an
+  email. Group members can also be removed by the same process. For more
+  details see the
+  \href{https://help.gradescope.com/article/m5qz2xsnjy-student-add-group-members}{help page on Gradescope}.
 
-      Create partner requests on the GSC website or using the
-      command-line tool; outstanding partner requests will appear on the
-      page for the relevant homework as well as your main GSC
-      submissions page.
-
-    \else
-
-      Partner requests are created with the \texttt{gsc partner request}
-      command and accepted using  using the \texttt{gsc partner accept}
-      command. You can list outstanding partner requests with the
-      \texttt{gsc status} command and cancel them with the \texttt{gsc
-      partner cancel} command.\marginpar{It’s also possible to manage
-      partner requests via the website.} See the
-      \texttt{\textbf{gsc}(1)} manual page for details.
-
-    \fi
-
-    Before a partner request can be accepted, the files in the two
-    submissions must be disjoint. (The system will not choose whose file
-    to delete if you both have files with the same name.) Once a partner
-    request is accepted, you and your partner's submissions are joined
-    together: when one partner uploads files to the GSC server or
-    performs self evaluation, the results will be visible to both.
+  Make sure that you add your partner as soon as possible so you can both
+  upload code for the assignment.
 
   \fi
 
@@ -260,7 +271,7 @@
     \DueDateRows
     Partners:
     & \if@partner@allowed
-        Yes; register on GSC before submission
+        Yes; register on Gradescope before submission
       \else
         No; must be completed by yourself
       \fi
