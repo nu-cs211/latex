@@ -63,20 +63,15 @@
 \newcommand\aside[1]{%
   \aside@helper{%
     \setlength\parindent{\asideparindent}\noindent\ignorespaces
-    #1%
+    \small #1%
   }%
   \ignorespaces
 }
 
 \newif\if@partner@allowed
 
-\newcommand\HomeworkInfo[1][2]{
+\newcommand\HomeworkInfo[1]{
   \date{\TERM}
-  \if2#1
-    \@partner@allowedtrue
-  \else
-    \@partner@allowedfalse
-  \fi
   \@ifnextchar *
     \HomeworkInfo@manual
     \HomeworkInfo@auto
@@ -112,9 +107,9 @@
 }
 
 
-\if@cxx
 
   \newcommand\CPrelims{
+
     Download \href{\HWROOT/hw\hw@number@padded.zip}{the project ZIP
     file} to your computer%
     \footnote{To complete this homework on your own computer, you need a
@@ -128,43 +123,11 @@
     a bogus \filename{CMakeLists.txt} that won't be able to find SDL2.)
   }
 
-\else
-
-  \newcommand\CPrelims[1][\relax]{
-    Login
-    \marginpar{%
-      \ifx#1\relax \else
-        \vspace*{#1\baselineskip}%
-      \fi
-      This homework assignment must be completed on Linux by logging into
-      \href{\LabHostnames@ShortUrl}{a Linux workstation}.
-      Each time you login to work on \COURSENO,
-      you should run \progname{211} to ensure your environment is
-      setup correctly. (If you get an error saying that \filename{211.h}
-      doesn't exist, that probably means you missed the step in
-      \href{\LabPdfUrl{1}}{Lab 1} where you needed to run
-      \texttt{\plaintilde cs211/setup211}.)
-    }%
-    \marginpar{
-      \bigskip
-      \small\tableofcontents
-    }%
-    to the server of your choice and \progname{cd} to the
-    directory where you keep your \COURSENO\ work. Then
-    unarchive the starter code, and change into the project directory:
-    \par
-    \begin{CmdLine}
-      \C cd cs211 \\
-      \C tar -kxvf \plaintilde cs211/hw/hw\hw@number@padded.tgz \\
-      \ETC
-      \C cd hw\hw@number@padded \\
-      \NoPrompt
-    \end{CmdLine}
-  }
-
-\fi
 
 \newcommand\CSubmit[2]{
+
+
+  \setlength{\parindent}{15pt}
 
   Homework submission and grading will use Gradescope. You
   must include any files that you create or change. #1
@@ -175,7 +138,6 @@
   named \filename{README.txt} that you submit along with your code. See
   \href{\SyllabusUrl}{the syllabus} for definitions and other details.
 
-  \if@cxx
 
 %    You should upload your files on
 %    \href{https://cs211.cs.northwestern.edu/gsc}{the GSC web
@@ -189,35 +151,6 @@
   \filename{src/} and \filename{test/} directories! Submitting extra files is
   fine. To submit additional times, select the ``Resubmit'' button on the
   bottom right.
-
-  \else
-
-%    Submit using the command-line GSC client \texttt{\textbf{gsc}(1)}.
-%    Instructions are available in the \texttt{\textbf{submit211}(7)}
-%    manual page on the Unix login and lab machines. To view the manual
-%    page, run:
-%
-%    \begin{CmdLine}
-%      \C man submit211 \\
-%      \NoPrompt
-%    \end{CmdLine}
-
-    Submit using the command-line tool \texttt{submit211}. You can run the
-    command with the \texttt{-{}-help} flag to see more details. The tool will
-    ask you to log in with your Gradescope credentials, so make sure you've
-    created an account!
-
-    To submit the necessary files for this homework, you will run something
-    that looks like:
-
-    #2
-
-    Remember that those are relative paths to the files you want to submit. So
-    make sure to change them to make sense for whatever directory you are
-    running the command from. You can also add any additional files you want
-    to upload, like \filename{README.txt}, to the end of the command.
-
-  \fi
 
   \if@partner@allowed
 
