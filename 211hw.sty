@@ -82,6 +82,11 @@
     \HomeworkInfo@auto
 }
 
+\newcommand\FakeHWInfo[1]{
+  \@partner@allowedfalse
+  \def\hw@number{#1}
+}
+
 \def\HomeworkInfo@manual*#1#2{
   \title{#1}
   \author{\COURSENO}
