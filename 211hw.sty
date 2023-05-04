@@ -1,7 +1,7 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{211hw}[2020/2/9 0.2.1]
 
-\DeclareOption*{\PassOptionsToPackage{\CurrentOption}{211common}}
+\DeclareOption*{\PassOptionsToPackage{\CurrentOption}{latex/211common}}
 \ProcessOptions\relax
 
 \RequirePackage{latex/211common}
@@ -16,36 +16,36 @@
 \lstset{showstringspaces=false}
 
 \if@cxx
-  \RequirePackage{charter}
-  \RequirePackage{multicol}
-  \RequirePackage[margin=1in]{geometry}
-
-  \RequirePackage{fontspec}
-  \setmonofont[Scale=0.88]{Iosevka}
-
-  \addtokomafont{title}{\mdseries}
-  \addtokomafont{author}{\mdseries\sffamily}
-  \addtokomafont{date}{\mdseries\sffamily}
-  \addtokomafont{section}{\raggedright\mdseries}
-  \addtokomafont{subsection}{\raggedright\mdseries}
-  \addtokomafont{subsubsection}{\raggedright\mdseries}
-
-  \RequirePackage{tocloft}
-  \let\old@cfttoctitlefont\cfttoctitlefont
-  \renewcommand{\cfttoctitlefont}{\old@cfttoctitlefont\mdseries}
-
-  \renewcommand{\cftsecfont}{\sffamily\bfseries}
-  \renewcommand{\cftsubsecfont}{\sffamily}
-  \renewcommand{\cftsubsubsecfont}{\ttfamily}
-
-  % Don't show numbers on subsubsection headings:
-  \renewcommand{\thesubsubsection}{}
-
-  \pagestyle{headings}
-
-  \let\aside@helper\footnote
-  \newcommand\liningnumerals[1]{{#1}}
-\else
+%  \RequirePackage{charter}
+%  \RequirePackage{multicol}
+%  \RequirePackage[margin=1in]{geometry}
+%
+%  \RequirePackage{fontspec}
+%  \setmonofont[Scale=0.88]{Iosevka}
+%
+%  \addtokomafont{title}{\mdseries}
+%  \addtokomafont{author}{\mdseries\sffamily}
+%  \addtokomafont{date}{\mdseries\sffamily}
+%  \addtokomafont{section}{\raggedright\mdseries}
+%  \addtokomafont{subsection}{\raggedright\mdseries}
+%  \addtokomafont{subsubsection}{\raggedright\mdseries}
+%
+%  \RequirePackage{tocloft}
+%  \let\old@cfttoctitlefont\cfttoctitlefont
+%  \renewcommand{\cfttoctitlefont}{\old@cfttoctitlefont\mdseries}
+%
+%  \renewcommand{\cftsecfont}{\sffamily\bfseries}
+%  \renewcommand{\cftsubsecfont}{\sffamily}
+%  \renewcommand{\cftsubsubsecfont}{\ttfamily}
+%
+%  % Don't show numbers on subsubsection headings:
+%  \renewcommand{\thesubsubsection}{}
+%
+%  \pagestyle{headings}
+%
+%  \let\aside@helper\footnote
+%  \newcommand\liningnumerals[1]{{#1}}
+%\else
   \RequirePackage{lmodern}
   \RequirePackage[%
     rm={oldstyle=true,proportional=true},%
@@ -280,7 +280,7 @@
 
 \newcommand\MakeTitle[1][\relax]{
   \maketitle
-  \if@cxx\begin{center}\fi
+  %\if@cxx\begin{center}\fi
   \begin{tabular}[t]{llr}
     \DueDateRows
     Partners:
@@ -291,7 +291,7 @@
       \fi
   \end{tabular}
   \ifx#1\relax\else\aside{#1}\fi
-  \if@cxx\end{center}\bigskip\fi
+  %\if@cxx\end{center}\bigskip\fi
 }
 
 %% Cross-refs
